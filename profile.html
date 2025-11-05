@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Om Jagdamba Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            padding-top: 80px;
+        }
+        
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin-bottom: 1rem;
+        }
+        
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-email {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+        
+        .profile-sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .profile-main {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="om-jagdamb-tools-services-logo.jpg" alt="Om Jagdamba Tools Logo" class="logo-image">
+                    <span>Om Jagdamba Tools</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="product_webpage.html" class="nav-link">Products</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <div class="search-icon"><i class="fas fa-search"></i></div>
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <div id="user-auth-section">
+                        <!-- User account will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="profile-container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <img src="" alt="Profile Avatar" class="profile-avatar" id="profile-avatar">
+            <h1 class="profile-name" id="profile-name">User Name</h1>
+            <p class="profile-email" id="profile-email">user@email.com</p>
+        </div>
+
+        <div class="profile-content">
+            <!-- Sidebar -->
+            <div class="profile-sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active" onclick="showSection('overview')">
+                        <i class="fas fa-tachometer-alt"></i> Overview
+                    </a></li>
+                    <li><a href="#" onclick="showSection('personal-info')">
+                        <i class="fas fa-user"></i> Personal Info
+                    </a></li>
+                    <li><a href="#" onclick="showSection('orders')">
+                        <i class="fas fa-shopping-bag"></i> My Orders
+                    </a></li>
+                    <li><a href="#" onclick="showSection('wishlist')">
+                        <i class="fas fa-heart"></i> Wishlist
+                    </a></li>
+                    <li><a href="#" onclick="showSection('settings')">
+                        <i class="fas fa-cog"></i> Settings
+                    </a></li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="profile-main">
+                <!-- Overview Section -->
+                <div id="overview-section" class="profile-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-tachometer-alt"></i> Account Overview
+                    </h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-orders">0</div>
+                            <div class="stat-label">Total Orders</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="wishlist-items">0</div>
+                            <div class="stat-label">Wishlist Items</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-spent">₹0</div>
+                            <div class="stat-label">Total Spent</div>
+                        </div>
+                    </div>
+                    
+                    <h3>Recent Activity</h3>
+                    <div id="recent-activity">
+                        <p style="color: #666; text-align: center; padding: 2rem;">No recent activity</p>
+                    </div>
+                </div>
+
+                <!-- Personal Info Section -->
+                <div id="personal-info-section" class="profile-section" style="display: none;">
+                    <h2 class="section-title">
+                        <i class="fas fa-user"></i> Personal Information
+                    </h2>
+                    
+                    <form id="profile-form">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" id="full-name" placeholder="Enter your full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" id="email" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" id="phone" placeholder="Enter your phone number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Address</label>
+                            <textarea class="form-input" id="address" rows="3" placeholder="Enter your address"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Orders Section -->
+                <div id="orders-section" class="profile-section" style="display: none;">
+                    <h2 class="section-title">
+                        <i class="fas fa-shopping-bag"></i> My Orders
+                    </h2>
+                    
+                    <div id="orders-list">
+                        <p style="color: #666; text-align: center; padding: 2rem;">No orders found</p>
+                    </div>
+                </div>
+
+                <!-- Wishlist Section -->
+                <div id="wishlist-section" class="profile-section" style="display: none;">
+                    <h2 class="section-title">
+                        <i class="fas fa-heart"></i> My Wishlist
+                    </h2>
+                    
+                    <div id="wishlist-items-list">
+                        <p style="color: #666; text-align: center; padding: 2rem;">No items in wishlist</p>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settings-section" class="profile-section" style="display: none;">
+                    <h2 class="section-title">
+                        <i class="fas fa-cog"></i> Account Settings
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email Notifications</label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="email-notifications" checked>
+                            Receive email notifications about orders and promotions
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Language</label>
+                        <select class="form-input" id="language">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Currency</label>
+                        <select class="form-input" id="currency">
+                            <option value="INR">Indian Rupee (₹)</option>
+                            <option value="USD">US Dollar ($)</option>
+                        </select>
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                    
+                    <hr style="margin: 2rem 0;">
+                    
+                    <h3 style="color: #dc3545;">Danger Zone</h3>
+                    <button type="button" class="btn btn-secondary" onclick="deleteAccount()" style="background: #dc3545;">
+                        <i class="fas fa-trash"></i> Delete Account
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Profile page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const isUser = localStorage.getItem('isUser');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (!isUser || !userEmail) {
+                alert('Please login to access your profile');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Initialize profile data
+            initializeProfile();
+            loadUserData();
+        });
+
+        function initializeProfile() {
+            const userEmail = localStorage.getItem('userEmail');
+            const displayName = userEmail.split('@')[0];
+            
+            // Set profile header
+            document.getElementById('profile-name').textContent = displayName;
+            document.getElementById('profile-email').textContent = userEmail;
+            
+            // Set avatar
+            const avatarUrl = generateAvatar(userEmail);
+            document.getElementById('profile-avatar').src = avatarUrl;
+            
+            // Set form data
+            document.getElementById('email').value = userEmail;
+            document.getElementById('full-name').value = localStorage.getItem('userFullName') || displayName;
+            document.getElementById('phone').value = localStorage.getItem('userPhone') || '';
+            document.getElementById('address').value = localStorage.getItem('userAddress') || '';
+        }
+
+        function loadUserData() {
+            // Load user statistics (simulated)
+            document.getElementById('total-orders').textContent = localStorage.getItem('userTotalOrders') || '0';
+            document.getElementById('wishlist-items').textContent = localStorage.getItem('userWishlistCount') || '0';
+            document.getElementById('total-spent').textContent = '₹' + (localStorage.getItem('userTotalSpent') || '0');
+        }
+
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.profile-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Remove active class from all menu items
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + '-section').style.display = 'block';
+            
+            // Add active class to clicked menu item
+            event.target.classList.add('active');
+        }
+
+        // Form submission
+        document.getElementById('profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('full-name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            
+            // Save to localStorage (in production, send to server)
+            localStorage.setItem('userFullName', fullName);
+            localStorage.setItem('userPhone', phone);
+            localStorage.setItem('userAddress', address);
+            
+            showNotification('Profile updated successfully!', 'success');
+        });
+
+        function saveSettings() {
+            const emailNotifications = document.getElementById('email-notifications').checked;
+            const language = document.getElementById('language').value;
+            const currency = document.getElementById('currency').value;
+            
+            localStorage.setItem('userEmailNotifications', emailNotifications);
+            localStorage.setItem('userLanguage', language);
+            localStorage.setItem('userCurrency', currency);
+            
+            showNotification('Settings saved successfully!', 'success');
+        }
+
+        function deleteAccount() {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                // Clear all user data
+                Object.keys(localStorage).forEach(key => {
+                    if (key.startsWith('user') || key.startsWith('isUser')) {
+                        localStorage.removeItem(key);
+                    }
+                });
+                
+                alert('Account deleted successfully');
+                window.location.href = 'index.html';
+            }
+        }
+
+        function generateAvatar(email) {
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe', '#43e97b', '#38f9d7'];
+            const initial = email.charAt(0).toUpperCase();
+            const colorIndex = email.charCodeAt(0) % colors.length;
+            const color = colors[colorIndex];
+            
+            return `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="${encodeURIComponent(color)}" rx="50"/><text x="50" y="65" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="40" font-weight="bold">${initial}</text></svg>`;
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#28a745' : '#17a2b8'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.remove(), 3000);
+        }
+    </script>
+</body>
+</html>

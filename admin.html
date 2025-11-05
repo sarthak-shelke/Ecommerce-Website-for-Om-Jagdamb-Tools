@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Om Jagdamba Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .admin-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .admin-header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .admin-nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .admin-nav-item {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .admin-nav-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .admin-nav-item.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon.products { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .stat-icon.orders { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .stat-icon.users { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .stat-icon.revenue { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .admin-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .admin-table th,
+        .admin-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .admin-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-featured {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .quick-action {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+        
+        .quick-action:hover {
+            transform: translateY(-3px);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .quick-action i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 1rem;
+            }
+            
+            .admin-header h1 {
+                font-size: 2rem;
+            }
+            
+            .admin-nav {
+                flex-direction: column;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-table {
+                font-size: 0.875rem;
+            }
+            
+            .admin-table th,
+            .admin-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <div class="admin-header">
+            <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
+            <p>Welcome back! Manage your Om Jagdamba Tools e-commerce platform</p>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="admin-nav">
+            <a href="#dashboard" class="admin-nav-item active" onclick="showSection('dashboard')">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="#products" class="admin-nav-item" onclick="showSection('products')">
+                <i class="fas fa-box"></i> Products
+            </a>
+            <a href="#orders" class="admin-nav-item" onclick="showSection('orders')">
+                <i class="fas fa-shopping-cart"></i> Orders
+            </a>
+            <a href="#users" class="admin-nav-item" onclick="showSection('users')">
+                <i class="fas fa-users"></i> Users
+            </a>
+            <a href="/ecommerce_backend/admin/" class="admin-nav-item" target="_blank">
+                <i class="fas fa-cog"></i> Django Admin
+            </a>
+            <a href="index.html" class="admin-nav-item">
+                <i class="fas fa-arrow-left"></i> Back to Site
+            </a>
+        </div>
+        
+        <!-- Dashboard Section -->
+        <div id="dashboard-section" class="admin-content">
+            <!-- Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon products">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="stat-number" id="total-products">12</div>
+                    <div class="stat-label">Total Products</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orders">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-number" id="total-orders">45</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon users">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number" id="total-users">128</div>
+                    <div class="stat-label">Registered Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon revenue">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-number" id="total-revenue">₹1,24,500</div>
+                    <div class="stat-label">Total Revenue</div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="admin-section">
+                <h2 class="section-title">
+                    <i class="fas fa-bolt"></i> Quick Actions
+                </h2>
+                <div class="quick-actions">
+                    <a href="#" class="quick-action" onclick="showAddProductModal()">
+                        <i class="fas fa-plus"></i>
+                        Add New Product
+                    </a>
+                    <a href="#" class="quick-action" onclick="showSection('orders')">
+                        <i class="fas fa-eye"></i>
+                        View Recent Orders
+                    </a>
+                    <a href="#" class="quick-action" onclick="exportData()">
+                        <i class="fas fa-download"></i>
+                        Export Data
+                    </a>
+                    <a href="#" class="quick-action" onclick="showSettings()">
+                        <i class="fas fa-cog"></i>
+                        Site Settings
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Products Section -->
+        <div id="products-section" class="admin-content" style="display: none;">
+            <div class="admin-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="section-title">
+                        <i class="fas fa-box"></i> Product Management
+                    </h2>
+                    <button class="btn btn-primary" onclick="showAddProductModal()">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                </div>
+                
+                <!-- Search and Filter -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <input type="text" id="search-products" placeholder="Search products..." 
+                               style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 8px;"
+                               oninput="searchProducts()">
+                    </div>
+                    <select id="filter-category" onchange="filterProducts()" 
+                            style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 8px;">
+                        <option value="">All Categories</option>
+                        <option value="hand-tools">Hand Tools</option>
+                        <option value="power-tools">Power Tools</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="safety">Safety Equipment</option>
+                    </select>
+                    <select id="filter-status" onchange="filterProducts()" 
+                            style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 8px;">
+                        <option value="">All Status</option>
+                        <option value="in-stock">In Stock</option>
+                        <option value="out-of-stock">Out of Stock</option>
+                        <option value="featured">Featured</option>
+                    </select>
+                </div>
+                
+                <!-- Bulk Actions -->
+                <div id="bulk-actions" style="display: none; margin-bottom: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                    <strong><span id="selected-count">0</span> products selected</strong>
+                    <div style="margin-top: 0.5rem;">
+                        <button class="btn btn-sm btn-warning" onclick="bulkToggleFeatured()">
+                            <i class="fas fa-star"></i> Toggle Featured
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="bulkDelete()">
+                            <i class="fas fa-trash"></i> Delete Selected
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="select-all" onchange="selectAllProducts()">
+                                </th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                            <!-- Products will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Orders Section -->
+        <div id="orders-section" class="admin-content" style="display: none;">
+            <div class="admin-section">
+                <h2 class="section-title">
+                    <i class="fas fa-shopping-cart"></i> Order Management
+                </h2>
+                <p>Order management functionality will be integrated with your Django backend.</p>
+                <a href="/ecommerce_backend/admin/orders/" class="btn btn-primary" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Manage Orders in Django Admin
+                </a>
+            </div>
+        </div>
+        
+        <!-- Users Section -->
+        <div id="users-section" class="admin-content" style="display: none;">
+            <div class="admin-section">
+                <h2 class="section-title">
+                    <i class="fas fa-users"></i> User Management
+                </h2>
+                <p>User management functionality will be integrated with your Django backend.</p>
+                <a href="/ecommerce_backend/admin/auth/user/" class="btn btn-primary" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Manage Users in Django Admin
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Product Modal -->
+    <div id="add-product-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddProductModal()">&times;</span>
+            <h2>Add New Product</h2>
+            <form id="add-product-form">
+                <div class="form-group">
+                    <label for="product-name">Product Name:</label>
+                    <input type="text" id="product-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="product-price">Price (₹):</label>
+                    <input type="number" id="product-price" required>
+                </div>
+                <div class="form-group">
+                    <label for="product-category">Category:</label>
+                    <select id="product-category" required>
+                        <option value="hand-tools">Hand Tools</option>
+                        <option value="power-tools">Power Tools</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="safety">Safety Equipment</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="product-description">Description:</label>
+                    <textarea id="product-description" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="product-stock">Stock Quantity:</label>
+                    <input type="number" id="product-stock" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Add Product</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAddProductModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Check admin authentication before loading the page
+        function checkAdminAuth() {
+            const isAdmin = localStorage.getItem('isAdmin');
+            const adminEmail = localStorage.getItem('adminEmail');
+            const loginTime = localStorage.getItem('loginTime');
+            
+            // Check if user is authenticated as admin
+            if (!isAdmin || isAdmin !== 'true' || !adminEmail || !loginTime) {
+                redirectToLogin('Access denied. Please login as admin.');
+                return false;
+            }
+            
+            // Check if session is still valid (24 hours)
+            const loginDate = new Date(loginTime);
+            const now = new Date();
+            const hoursDiff = (now - loginDate) / (1000 * 60 * 60);
+            
+            if (hoursDiff > 24) {
+                localStorage.removeItem('isAdmin');
+                localStorage.removeItem('adminEmail');
+                localStorage.removeItem('loginTime');
+                redirectToLogin('Session expired. Please login again.');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function redirectToLogin(message) {
+            alert(message);
+            window.location.href = 'login.html';
+        }
+        
+        // Check authentication when page loads
+        if (!checkAdminAuth()) {
+            // Stop loading the page if not authenticated
+            document.body.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100vh; font-family: Arial, sans-serif;"><div style="text-align: center;"><h2>Access Denied</h2><p>Redirecting to login...</p></div></div>';
+        } else {
+            // Add logout functionality
+            function adminLogout() {
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.removeItem('isAdmin');
+                    localStorage.removeItem('adminEmail');
+                    localStorage.removeItem('loginTime');
+                    window.location.href = 'login.html';
+                }
+            }
+            
+            // Add logout button to navigation
+            document.addEventListener('DOMContentLoaded', function() {
+                const adminNav = document.querySelector('.admin-nav');
+                if (adminNav) {
+                    const logoutBtn = document.createElement('a');
+                    logoutBtn.href = '#';
+                    logoutBtn.className = 'admin-nav-item';
+                    logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+                    logoutBtn.onclick = function(e) {
+                        e.preventDefault();
+                        adminLogout();
+                    };
+                    logoutBtn.style.marginLeft = 'auto';
+                    adminNav.appendChild(logoutBtn);
+                }
+                
+                // Show admin info
+                const adminEmail = localStorage.getItem('adminEmail');
+                if (adminEmail) {
+                    const adminHeader = document.querySelector('.admin-header p');
+                    if (adminHeader) {
+                        adminHeader.innerHTML = `Welcome back, <strong>${adminEmail}</strong>! Manage your Om Jagdamba Tools e-commerce platform`;
+                    }
+                }
+            });
+        }
+    </script>
+    <script src="admin.js"></script>
+</body>
+</html>

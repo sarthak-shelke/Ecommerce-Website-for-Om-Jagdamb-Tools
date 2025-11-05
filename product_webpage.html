@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products - Om Jagdamb Tools</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            --primary-blue: #4A90E2; /* Blue from your loading screen */
+        }
+        /* Override Tailwind's default blue */
+        .bg-blue-600 { background-color: var(--primary-blue); }
+        .hover\:bg-blue-700:hover { background-color: #357ABD; }
+        .text-blue-600 { color: var(--primary-blue); }
+        .hover\:text-blue-600:hover { color: var(--primary-blue); }
+        .focus\:ring-blue-500:focus { --tw-ring-color: var(--primary-blue); }
+        .border-blue-600 { border-color: var(--primary-blue); }
+        .focus\:border-blue-500:focus { border-color: var(--primary-blue); }
+
+        /* Custom styles for dropdowns */
+        .dropdown-menu {
+            display: none; /* Starts hidden */
+            position: absolute;
+            background-color: #fff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 10;
+            left: 0; 
+        }
+        .dropdown-menu a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            cursor: pointer; /* Show it's clickable */
+        }
+        .dropdown-menu a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Modern Header Styles to match homepage */
+        .header-modern {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-link-modern {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+        }
+
+        .nav-link-modern:hover {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-link-modern::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: #667eea;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link-modern:hover::after {
+            width: 80%;
+        }
+
+        .nav-link-active {
+            color: #667eea !important;
+            font-weight: 600;
+        }
+
+        .nav-link-active::after {
+            width: 80%;
+        }
+
+        .cart-icon-modern {
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+            position: relative;
+            color: #333;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+        }
+
+        .cart-icon-modern:hover {
+            color: #667eea;
+        }
+
+        .text-purple-600 {
+            color: #667eea !important;
+        }
+
+        /* Add top margin to main content to account for fixed header */
+        main {
+            margin-top: 80px;
+        }
+
+        /* Mobile Menu Styles */
+        .hamburger-modern {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger-modern span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger-modern.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger-modern.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-modern.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-menu-modern {
+            display: none;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .mobile-menu-modern.active {
+            display: block;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            color: #333;
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 0.375rem;
+            margin: 0.25rem 0;
+        }
+
+        .mobile-nav-link:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            text-decoration: none;
+        }
+
+        .mobile-nav-active {
+            color: #667eea !important;
+            font-weight: 600;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        @media (max-width: 640px) {
+            .hamburger-modern {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Header / Navigation -->
+    <header class="header-modern">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <img src="om-jagdamb-tools-services-logo.jpg" alt="Om Jagdamba Tools Logo" class="h-10 w-10 mr-3 rounded-full">
+                    <span class="text-2xl font-bold text-purple-600">Om Jagdamba Tools</span>
+                </div>
+                <div class="hidden sm:block sm:ml-6">
+                    <div class="flex space-x-4">
+                        <a href="index.html" class="nav-link-modern">Home</a>
+                        <a href="product_webpage.html" class="nav-link-modern nav-link-active">Products</a>
+                        <a href="index.html#services" class="nav-link-modern">Services</a>
+                        <a href="about.html" class="nav-link-modern">About</a>
+                        <a href="contact.html" class="nav-link-modern">Contact</a>
+                        <a href="login.html" class="nav-link-modern">Login</a>
+                        <a href="signup.html" class="nav-link-modern">Sign Up</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <a href="cart.html" class="cart-icon-modern mr-4">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                    </a>
+                    <!-- Mobile menu button -->
+                    <div class="hamburger-modern sm:hidden">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div class="mobile-menu-modern sm:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="index.html" class="mobile-nav-link">Home</a>
+                    <a href="product_webpage.html" class="mobile-nav-link mobile-nav-active">Products</a>
+                    <a href="index.html#services" class="mobile-nav-link">Services</a>
+                    <a href="about.html" class="mobile-nav-link">About</a>
+                    <a href="contact.html" class="mobile-nav-link">Contact</a>
+                    <a href="login.html" class="mobile-nav-link">Login</a>
+                    <a href="signup.html" class="mobile-nav-link">Sign Up</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Product Grid -->
+    <main class="container mx-auto mt-10 mb-16 px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Rivets & Nutset Tools</h1>
+        
+        <!-- Filter and Sort Buttons (Unchanged) -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex space-x-4">
+                
+                <!-- Filter Dropdown -->
+                <div class="relative inline-block text-left dropdown">
+                    <button class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500" type="button">
+                        Filter
+                        <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    </button>
+                    <div class="dropdown-menu filter-menu origin-top-left absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu">
+                        <div class="py-1" role="none">
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-filter="all">All Products</a>
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-filter="riveter">Riveters</a>
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-filter="nutset">Nutset Tools</a>
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-filter="accessory">Accessories</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sort By Dropdown -->
+                <div class="relative inline-block text-left dropdown">
+                    <button class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500" type="button">
+                        Sort By
+                        <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    </button>
+                    <div class="dropdown-menu sort-menu origin-top-left absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu">
+                        <div class="py-1" role="none">
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-sort="price-asc">Price: Low to High</a>
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-sort="price-desc">Price: High to Low</a>
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-sort="name-asc">Name: A to Z</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+
+            <!-- 
+              NEW: Each card now has 'data-image-large' and 'data-description'
+              The 'href' is still a fallback, the click is handled by app.js
+            -->
+            <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="riveter" 
+               data-price="34.99" 
+               data-name="Heavy-Duty Hand Riveter Kit"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=Hand+Riveter"
+               data-description="This robust heavy-duty hand riveter kit comes with 4 interchangeable nose pieces (3/32', 1/8', 5/32', 3/16') and is perfect for all your riveting needs. Ergonomic grip for comfort.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=Hand+Riveter" alt="Heavy-Duty Hand Riveter" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">Heavy-Duty Hand Riveter Kit</h3>
+                    <p class="text-gray-600 text-base mt-1">$34.99</p>
+                </div>
+            </a>
+
+            <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="nutset" 
+               data-price="49.99" 
+               data-name="Metric Nutset Insert Kit (M3-M8)"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=Nutset+Kit"
+               data-description="A complete kit for setting M3, M4, M5, M6, and M8 rivet nuts. Ideal for creating strong threads in thin materials. Includes mandrels and a sturdy case.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=Nutset+Kit" alt="Metric Nutset Kit" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">Metric Nutset Insert Kit (M3-M8)</h3>
+                    <p class="text-gray-600 text-base mt-1">$49.99</p>
+                </div>
+            </a>
+            
+            <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="riveter" 
+               data-price="129.99" 
+               data-name="12V Cordless Rivet Gun"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=Cordless+Gun"
+               data-description="Increase your productivity with this 12V cordless rivet gun. Sets rivets in seconds. Comes with two batteries, a charger, and a carrying case.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=Cordless+Gun" alt="12V Cordless Rivet Gun" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">12V Cordless Rivet Gun</h3>
+                    <p class="text-gray-600 text-base mt-1">$129.99</p>
+                </div>
+            </a>
+
+            <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="riveter" 
+               data-price="42.50" 
+               data-name="Swivel Head Hand Riveter"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=Swivel+Head"
+               data-description="Features a 360-degree swivel head for riveting in hard-to-reach places and at any angle. A versatile tool for any toolbox.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=Swivel+Head" alt="Swivel Head Hand Riveter" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">Swivel Head Hand Riveter</h3>
+                    <p class="text-gray-600 text-base mt-1">$42.50</p>
+                </div>
+            </a>
+
+            <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="riveter" 
+               data-price="55.00" 
+               data-name="Long-Arm Manual Riveter"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=Long-Arm+Tool"
+               data-description="The long-arm handles provide extra leverage, making it easier to set larger rivets with less effort. Perfect for heavy-duty applications.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=Long-Arm+Tool" alt="Long-Arm Riveter" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">Long-Arm Manual Riveter</h3>
+                    <p class="text-gray-600 text-base mt-1">$55.00</p>
+                </div>
+            </a>
+
+            <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="nutset" 
+               data-price="79.99" 
+               data-name="Rivet Nut Tool (M5-M12 Kit)"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=Rivet+Nut+Tool"
+               data-description="A heavy-duty tool for setting larger rivet nuts from M5 to M12. Includes all necessary mandrels in a durable storage case.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=Rivet+Nut+Tool" alt="Rivet Nut Tool M5-M12" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">Rivet Nut Tool (M5-M12 Kit)</h3>
+                    <p class="text-gray-600 text-base mt-1">$79.99</p>
+                </div>
+            </a>
+
+            <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="nutset" 
+               data-price="179.99" 
+               data-name="18V Cordless Nutset Tool"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=Cordless+Nutset"
+               data-description="The ultimate tool for high-volume rivet nut installation. This 18V cordless tool provides fast, effortless setting of nuts up to M10.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=Cordless+Nutset" alt="18V Cordless Nutset Tool" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">18V Cordless Nutset Tool</h3>
+                    <p class="text-gray-600 text-base mt-1">$179.99</p>
+                </div>
+            </a>
+
+            <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="accessory" 
+               data-price="19.99" 
+               data-name="500-Pack Aluminum Rivet Assortment"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=Rivet+Pack"
+               data-description="A handy assortment of 500 aluminum rivets in various sizes. Comes in a convenient plastic organizer case.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=Rivet+Pack" alt="Aluminum Rivet Assortment" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">500-Pack Aluminum Rivet Assortment</h3>
+                    <p class="text-gray-600 text-base mt-1">$19.99</p>
+                </div>
+            </a>
+
+            <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="accessory" 
+               data-price="24.99" 
+               data-name="200-Pack Steel Rivet Nuts (M4-M8)"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=Rivet+Nuts"
+               data-description="High-quality steel rivet nuts for creating strong, permanent threads. Assortment includes M4, M5, M6, and M8 sizes.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=Rivet+Nuts" alt="Steel Rivet Nuts" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">200-Pack Steel Rivet Nuts (M4-M8)</h3>
+                    <p class="text-gray-600 text-base mt-1">$24.99</p>
+                </div>
+            </a>
+
+             <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="riveter" 
+               data-price="89.99" 
+               data-name="Pneumatic Rivet Gun (Air Riveter)"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=Pneumatic+Gun"
+               data-description="For professional, high-speed riveting. Connects to your air compressor for powerful and fast operation. Reduces hand fatigue significantly.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=Pneumatic+Gun" alt="Pneumatic Rivet Gun" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">Pneumatic Rivet Gun (Air Riveter)</h3>
+                    <p class="text-gray-600 text-base mt-1">$89.99</p>
+                </div>
+            </a>
+
+            <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="accessory" 
+               data-price="29.99" 
+               data-name="Stainless Steel Rivet Kit (150-Pack)"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=SS+Rivets"
+               data-description="For applications requiring high strength and corrosion resistance. This kit includes 150 stainless steel rivets in common sizes.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=SS+Rivets" alt="Stainless Steel Rivet Kit" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">Stainless Steel Rivet Kit (150-Pack)</h3>
+                    <p class="text-gray-600 text-base mt-1">$29.99</p>
+                </div>
+            </a>
+
+            <a href="product_detail.html" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group" 
+               data-category="nutset" 
+               data-price="39.99" 
+               data-name="Manual Nut/Thread Setting Tool"
+               data-image-large="https://placehold.co/600x600/e2e8f0/334155?text=Manual+Nut+Tool"
+               data-description="A compact and reliable manual tool for setting rivet nuts. A great, affordable option for smaller jobs or hobbyist use.">
+                <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                    <img src="https://placehold.co/300x300/e2e8f0/334155?text=Manual+Nut+Tool" alt="Manual Thread Setting Tool" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 truncate">Manual Nut/Thread Setting Tool</h3>
+                    <p class="text-gray-600 text-base mt-1">$39.99</p>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300">
+        <!-- Footer content is unchanged -->
+        <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <div class="md:flex md:justify-between">
+                <div class="mb-6 md:mb-0">
+                    <span class="text-2xl font-bold text-white">Om Jagdamb Tools</span>
+                    <p class="mt-2 text-gray-400">Quality tools for professionals.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:grid-cols-2">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-100 uppercase tracking-wider">Shop</h3>
+                        <ul class="mt-4 space-y-2">
+                            <li><a href="#" class="text-base text-gray-400 hover:text-white">Riveters</a></li>
+                            <li><a href="#" class="text-base text-gray-400 hover:text-white">Nutsetters</a></li>
+                            <li><a href="#" class="text-base text-gray-400 hover:text-white">Rivets</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-100 uppercase tracking-wider">Support</h3>
+                        <ul class="mt-4 space-y-2">
+                            <li><a href="#" class="text-base text-gray-400 hover:text-white">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-8 text-center">
+                <p class="text-base text-gray-400">&copy; 2025 Om Jagdamb Tools. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Linked to external app.js file -->
+    <script src="app.js" defer></script>
+    <script>
+        // Update cart badge
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cart-badge');
+            if (badge) {
+                badge.textContent = totalItems;
+                badge.classList.toggle('hidden', totalItems === 0);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger-modern');
+            const mobileMenu = document.querySelector('.mobile-menu-modern');
+            
+            if (hamburger && mobileMenu) {
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    mobileMenu.classList.toggle('active');
+                });
+            }
+
+            // Header scroll effect to match homepage
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('.header-modern');
+                if (window.scrollY > 100) {
+                    header.style.background = 'rgba(255, 255, 255, 0.98)';
+                    header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.15)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Om Jagdamba Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* (Uses the same CSS as your login.html page) */
+        /* You can copy/paste your <style> block from login.html here */
+        .login-container { min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; padding: 2rem; position: relative; overflow: hidden; }
+        .login-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 3rem; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); width: 100%; max-width: 450px; position: relative; z-index: 1; }
+        .login-header { text-align: center; margin-bottom: 2rem; }
+        .login-logo { display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: #667eea; margin-bottom: 1rem; }
+        .login-title { font-size: 1.8rem; font-weight: 600; color: #333; margin-bottom: 0.5rem; }
+        .login-subtitle { color: #666; font-size: 1rem; }
+        .login-form { margin-bottom: 2rem; }
+        .form-group { margin-bottom: 1.5rem; position: relative; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #333; }
+        .form-input { width: 100%; padding: 1rem 1rem 1rem 3rem; border: 2px solid #e1e5e9; border-radius: 12px; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; background: white; }
+        .form-input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        .form-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #667eea; font-size: 1.1rem; }
+        .form-group.has-label .form-icon { top: calc(50% + 12px); }
+        .login-btn { width: 100%; padding: 1rem; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3); }
+        .signup-link { text-align: center; color: #666; margin-top: 2rem; }
+        .signup-link a { color: #667eea; text-decoration: none; font-weight: 600; }
+        .back-home { position: absolute; top: 2rem; left: 2rem; color: white; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-weight: 500; z-index: 2; }
+        #error-message { color: #e53e3e; font-size: 0.9rem; font-weight: 500; text-align: center; margin-bottom: 1.5rem; display: block; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <a href="index.html" class="back-home">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <img src="om-jagdamb-tools-services-logo.jpg" alt="Om Jagdamba Tools Logo" style="width: 40px; height: 40px; margin-right: 0.5rem; border-radius: 50%;">
+                    Om Jagdamba Tools
+                </div>
+                <h1 class="login-title">Create Your Account</h1>
+                <p class="login-subtitle">Get started with us today</p>
+            </div>
+
+            <form class="login-form" id="signupForm">
+                
+                <div class="form-group has-label">
+                    <label for="username" class="form-label">Username</label>
+                    <i class="fas fa-user form-icon"></i>
+                    <input type="text" id="username" class="form-input" placeholder="e.g., siddhant" required>
+                </div>
+                
+                <div class="form-group has-label">
+                    <label for="email" class="form-label">Email Address</label>
+                    <i class="fas fa-envelope form-icon"></i>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group has-label">
+                    <label for="first-name" class="form-label">First Name</label>
+                    <i class="fas fa-user-tag form-icon"></i>
+                    <input type="text" id="first-name" class="form-input" placeholder="Enter your first name" required>
+                </div>
+                
+                <div class="form-group has-label">
+                    <label for="last-name" class="form-label">Last Name</label>
+                    <i class="fas fa-user-tag form-icon"></i>
+                    <input type="text" id="last-name" class="form-input" placeholder="Enter your last name" required>
+                </div>
+
+                <div class="form-group has-label">
+                    <label for="password" class="form-label">Password</label>
+                    <i class="fas fa-lock form-icon"></i>
+                    <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="form-group has-label">
+                    <label for="password-confirm" class="form-label">Confirm Password</label>
+                    <i class="fas fa-lock form-icon"></i>
+                    <input type="password" id="password-confirm" class="form-input" placeholder="Confirm your password" required>
+                </div>
+
+                <p id="error-message"></p>
+
+                <button type="submit" class="login-btn" id="signup-btn">
+                    <i class="fas fa-user-plus" style="margin-right: 0.5rem;"></i>
+                    Sign Up
+                </button>
+            </form>
+
+            <div class="signup-link">
+                Already have an account? <a href="login.html">Log in here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form validation functions
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        function validatePassword(password) {
+            // At least 8 characters, 1 uppercase, 1 lowercase, 1 number
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
+            return passwordRegex.test(password);
+        }
+        
+        function validateUsername(username) {
+            // 3-20 characters, alphanumeric and underscore only
+            const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+            return usernameRegex.test(username);
+        }
+        
+        function validateName(name) {
+            // At least 2 characters, letters only
+            const nameRegex = /^[a-zA-Z]{2,}$/;
+            return nameRegex.test(name);
+        }
+        
+        function showError(message) {
+            const errorElement = document.getElementById('error-message');
+            errorElement.textContent = message;
+            errorElement.style.color = '#e53e3e';
+            errorElement.style.display = 'block';
+        }
+        
+        function showSuccess(message) {
+            const errorElement = document.getElementById('error-message');
+            errorElement.textContent = message;
+            errorElement.style.color = '#28a745';
+            errorElement.style.display = 'block';
+        }
+        
+        function clearMessage() {
+            const errorElement = document.getElementById('error-message');
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+        }
+        
+        // Real-time validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('signupForm');
+            const username = document.getElementById('username');
+            const email = document.getElementById('email');
+            const firstName = document.getElementById('first-name');
+            const lastName = document.getElementById('last-name');
+            const password = document.getElementById('password');
+            const passwordConfirm = document.getElementById('password-confirm');
+            const submitBtn = document.getElementById('signup-btn');
+            
+            // Real-time validation on input
+            username.addEventListener('input', function() {
+                if (this.value && !validateUsername(this.value)) {
+                    this.style.borderColor = '#e53e3e';
+                    showError('Username must be 3-20 characters, letters, numbers, and underscores only');
+                } else {
+                    this.style.borderColor = '#e1e5e9';
+                    clearMessage();
+                }
+            });
+            
+            email.addEventListener('input', function() {
+                if (this.value && !validateEmail(this.value)) {
+                    this.style.borderColor = '#e53e3e';
+                    showError('Please enter a valid email address');
+                } else {
+                    this.style.borderColor = '#e1e5e9';
+                    clearMessage();
+                }
+            });
+            
+            firstName.addEventListener('input', function() {
+                if (this.value && !validateName(this.value)) {
+                    this.style.borderColor = '#e53e3e';
+                    showError('First name must be at least 2 letters');
+                } else {
+                    this.style.borderColor = '#e1e5e9';
+                    clearMessage();
+                }
+            });
+            
+            lastName.addEventListener('input', function() {
+                if (this.value && !validateName(this.value)) {
+                    this.style.borderColor = '#e53e3e';
+                    showError('Last name must be at least 2 letters');
+                } else {
+                    this.style.borderColor = '#e1e5e9';
+                    clearMessage();
+                }
+            });
+            
+            password.addEventListener('input', function() {
+                if (this.value && !validatePassword(this.value)) {
+                    this.style.borderColor = '#e53e3e';
+                    showError('Password must be at least 8 characters with uppercase, lowercase, and number');
+                } else {
+                    this.style.borderColor = '#e1e5e9';
+                    clearMessage();
+                }
+            });
+            
+            passwordConfirm.addEventListener('input', function() {
+                if (this.value && this.value !== password.value) {
+                    this.style.borderColor = '#e53e3e';
+                    showError('Passwords do not match');
+                } else {
+                    this.style.borderColor = '#e1e5e9';
+                    clearMessage();
+                }
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Clear previous messages
+                clearMessage();
+                
+                // Validate all fields
+                const usernameValue = username.value.trim();
+                const emailValue = email.value.trim();
+                const firstNameValue = firstName.value.trim();
+                const lastNameValue = lastName.value.trim();
+                const passwordValue = password.value;
+                const passwordConfirmValue = passwordConfirm.value;
+                
+                // Check if all fields are filled
+                if (!usernameValue || !emailValue || !firstNameValue || !lastNameValue || !passwordValue || !passwordConfirmValue) {
+                    showError('Please fill in all fields');
+                    return;
+                }
+                
+                // Validate username
+                if (!validateUsername(usernameValue)) {
+                    showError('Username must be 3-20 characters, letters, numbers, and underscores only');
+                    username.focus();
+                    return;
+                }
+                
+                // Validate email
+                if (!validateEmail(emailValue)) {
+                    showError('Please enter a valid email address');
+                    email.focus();
+                    return;
+                }
+                
+                // Validate first name
+                if (!validateName(firstNameValue)) {
+                    showError('First name must be at least 2 letters');
+                    firstName.focus();
+                    return;
+                }
+                
+                // Validate last name
+                if (!validateName(lastNameValue)) {
+                    showError('Last name must be at least 2 letters');
+                    lastName.focus();
+                    return;
+                }
+                
+                // Validate password
+                if (!validatePassword(passwordValue)) {
+                    showError('Password must be at least 8 characters with uppercase, lowercase, and number');
+                    password.focus();
+                    return;
+                }
+                
+                // Validate password confirmation
+                if (passwordValue !== passwordConfirmValue) {
+                    showError('Passwords do not match');
+                    passwordConfirm.focus();
+                    return;
+                }
+                
+                // Show loading state
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i>Creating Account...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Check if user already exists (simulate)
+                    const existingUsers = JSON.parse(localStorage.getItem('users') || '[]');
+                    const userExists = existingUsers.some(user => 
+                        user.email === emailValue || user.username === usernameValue
+                    );
+                    
+                    if (userExists) {
+                        showError('Username or email already exists');
+                        submitBtn.innerHTML = '<i class="fas fa-user-plus" style="margin-right: 0.5rem;"></i>Sign Up';
+                        submitBtn.disabled = false;
+                        return;
+                    }
+                    
+                    // Create new user
+                    const newUser = {
+                        username: usernameValue,
+                        email: emailValue,
+                        firstName: firstNameValue,
+                        lastName: lastNameValue,
+                        password: passwordValue, // In real app, this would be hashed
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    existingUsers.push(newUser);
+                    localStorage.setItem('users', JSON.stringify(existingUsers));
+                    
+                    // Set user session
+                    localStorage.setItem('isUser', 'true');
+                    localStorage.setItem('userEmail', emailValue);
+                    localStorage.setItem('userLoginTime', new Date().toISOString());
+                    localStorage.setItem('justLoggedIn', 'true');
+                    
+                    showSuccess('Account created successfully! Redirecting...');
+                    submitBtn.innerHTML = '<i class="fas fa-check" style="margin-right: 0.5rem;"></i>Success!';
+                    submitBtn.style.background = '#28a745';
+                    
+                    // Redirect to dashboard or home
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                    
+                }, 1000);
+            });
+        });
+    </script>
+    
+    <script src="script.js" defer></script>
+</body>
+</html>
