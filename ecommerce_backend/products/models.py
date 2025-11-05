@@ -28,7 +28,7 @@ class Category(models.Model):
         super().save(*args, **kwargs)
 
 class Product(models.Model):
-    """Product model for Om Jagdamba Tools"""
+    """Product model for Om Jagdamb Tools"""
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     description = models.TextField()

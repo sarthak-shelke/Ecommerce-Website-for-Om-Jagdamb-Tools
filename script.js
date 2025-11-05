@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 // Global Variables
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let products = [];
@@ -1907,16 +1907,7 @@ function showNotification(message, type = 'info') {
         notification.style.animation = 'slideOut 0.3s ease-in';
         setTimeout(() => notification.remove(), 300);
     }, 3000);
-=======
-// Global Variables
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-let products = [];
-let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-let userPreferences = JSON.parse(localStorage.getItem('userPreferences')) || {
-    currency: 'INR',
-    language: 'en',
-    theme: 'light'
-};
+
 
 // Product loading state
 let isLoadingProducts = false;
@@ -3816,5 +3807,5 @@ function showNotification(message, type = 'info') {
         notification.style.animation = 'slideOut 0.3s ease-in';
         setTimeout(() => notification.remove(), 300);
     }, 3000);
->>>>>>> 1a1e704d7eebaa3dc35e5fc0b35307bad07426c9
+
 }

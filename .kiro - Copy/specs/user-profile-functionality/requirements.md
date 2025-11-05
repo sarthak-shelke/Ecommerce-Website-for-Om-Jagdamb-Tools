@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This document outlines the requirements for implementing comprehensive user profile functionality after login in the Om Jagdamba Tools e-commerce application. The system currently has basic login functionality but lacks proper implementation of user profile features including My Profile, My Dashboard, Wishlist, and Settings functionality.
+This document outlines the requirements for implementing comprehensive user profile functionality after login in the Om Jagdamb Tools e-commerce application. The system currently has basic login functionality but lacks proper implementation of user profile features including My Profile, My Dashboard, Wishlist, and Settings functionality.
 
 ## Glossary
 
-- **User_System**: The authentication and user management system of the Om Jagdamba Tools application
+- **User_System**: The authentication and user management system of the Om Jagdamb Tools application
 - **Profile_Page**: The dedicated page displaying user account information and allowing profile management
 - **Dashboard_Page**: The user's personalized dashboard showing orders, activity, and quick actions
 - **Wishlist_Modal**: A modal interface for displaying and managing user's saved products

@@ -1,6 +1,6 @@
 <<<<<<< HEAD
 /**
- * Unified Cart Management System for Om Jagdamba Tools
+ * Unified Cart Management System for Om Jagdamb Tools
  * 
  * This file provides a centralized cart management system that works
  * consistently across all pages and persists data properly.
@@ -24,7 +24,7 @@ class CartManager {
     // Load cart from localStorage
     loadCart() {
         try {
-            const cartData = localStorage.getItem('om_jagdamba_cart');
+            const cartData = localStorage.getItem('om_jagdamb_cart');
             return cartData ? JSON.parse(cartData) : [];
         } catch (error) {
             console.error('Error loading cart:', error);
@@ -35,7 +35,7 @@ class CartManager {
     // Save cart to localStorage
     saveCart() {
         try {
-            localStorage.setItem('om_jagdamba_cart', JSON.stringify(this.cart));
+            localStorage.setItem('om_jagdamb_cart', JSON.stringify(this.cart));
             this.notifyListeners();
         } catch (error) {
             console.error('Error saving cart:', error);
@@ -411,7 +411,7 @@ class CartManager {
             itemCount: this.getItemCount(),
             total: this.getTotal(),
             uniqueItems: this.cart.length,
-            lastUpdated: localStorage.getItem('om_jagdamba_cart_updated') || new Date().toISOString()
+            lastUpdated: localStorage.getItem('om_jagdamb_cart_updated') || new Date().toISOString()
         };
     }
 }
@@ -459,7 +459,7 @@ function updateCartUI() {
 
 =======
 /**
- * Unified Cart Management System for Om Jagdamba Tools
+ * Unified Cart Management System for Om Jagdamb Tools
  * 
  * This file provides a centralized cart management system that works
  * consistently across all pages and persists data properly.
@@ -483,7 +483,7 @@ class CartManager {
     // Load cart from localStorage
     loadCart() {
         try {
-            const cartData = localStorage.getItem('om_jagdamba_cart');
+            const cartData = localStorage.getItem('om_jagdamb_cart');
             return cartData ? JSON.parse(cartData) : [];
         } catch (error) {
             console.error('Error loading cart:', error);
@@ -494,7 +494,7 @@ class CartManager {
     // Save cart to localStorage
     saveCart() {
         try {
-            localStorage.setItem('om_jagdamba_cart', JSON.stringify(this.cart));
+            localStorage.setItem('om_jagdamb_cart', JSON.stringify(this.cart));
             this.notifyListeners();
         } catch (error) {
             console.error('Error saving cart:', error);
@@ -870,7 +870,7 @@ class CartManager {
             itemCount: this.getItemCount(),
             total: this.getTotal(),
             uniqueItems: this.cart.length,
-            lastUpdated: localStorage.getItem('om_jagdamba_cart_updated') || new Date().toISOString()
+            lastUpdated: localStorage.getItem('om_jagdamb_cart_updated') || new Date().toISOString()
         };
     }
 }

@@ -1,5 +1,5 @@
 """
-URL configuration for Om Jagdamba Tools E-commerce Backend.
+URL configuration for Om Jagdamb Tools E-commerce Backend.
 """
 from django.contrib import admin
 from django.urls import path, include

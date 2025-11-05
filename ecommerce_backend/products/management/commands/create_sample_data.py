@@ -6,16 +6,16 @@ from accounts.models import User
 User = get_user_model()
 
 class Command(BaseCommand):
-    help = 'Create sample data for Om Jagdamba Tools'
+    help = 'Create sample data for Om Jagdamb Tools'
 
     def handle(self, *args, **options):
         self.stdout.write('Creating sample data...')
         
         # Create superuser
-        if not User.objects.filter(email='admin@omjagdambatools.com').exists():
+        if not User.objects.filter(email='admin@omjagdambtools.com').exists():
             admin_user = User.objects.create_superuser(
                 username='admin',
-                email='admin@omjagdambatools.com',
+                email='admin@omjagdambtools.com',
                 password='admin123',
                 first_name='Admin',
                 last_name='User'
@@ -50,7 +50,7 @@ class Command(BaseCommand):
                 'price': 899.00,
                 'original_price': 999.00,
                 'stock_quantity': 25,
-                'brand': 'Om Jagdamba',
+                'brand': 'Om Jagdamb',
                 'is_featured': True,
             },
             {
@@ -62,7 +62,7 @@ class Command(BaseCommand):
                 'price': 2499.00,
                 'original_price': 2799.00,
                 'stock_quantity': 15,
-                'brand': 'Om Jagdamba',
+                'brand': 'Om Jagdamb',
                 'is_featured': True,
             },
             {
@@ -74,7 +74,7 @@ class Command(BaseCommand):
                 'price': 599.00,
                 'original_price': 699.00,
                 'stock_quantity': 30,
-                'brand': 'Om Jagdamba',
+                'brand': 'Om Jagdamb',
                 'is_featured': False,
             },
             {
@@ -85,7 +85,7 @@ class Command(BaseCommand):
                 'sku': 'MEA-001',
                 'price': 299.00,
                 'stock_quantity': 50,
-                'brand': 'Om Jagdamba',
+                'brand': 'Om Jagdamb',
                 'is_featured': False,
             },
             {
@@ -96,7 +96,7 @@ class Command(BaseCommand):
                 'sku': 'SCR-001',
                 'price': 799.00,
                 'stock_quantity': 20,
-                'brand': 'Om Jagdamba',
+                'brand': 'Om Jagdamb',
                 'is_featured': True,
             },
             {
@@ -108,7 +108,7 @@ class Command(BaseCommand):
                 'price': 3499.00,
                 'original_price': 3999.00,
                 'stock_quantity': 10,
-                'brand': 'Om Jagdamba',
+                'brand': 'Om Jagdamb',
                 'is_featured': True,
             },
         ]
@@ -134,5 +134,5 @@ class Command(BaseCommand):
         
         self.stdout.write(self.style.SUCCESS('Sample data created successfully!'))
         self.stdout.write('Admin credentials:')
-        self.stdout.write('Email: admin@omjagdambatools.com')
+        self.stdout.write('Email: admin@omjagdambtools.com')
         self.stdout.write('Password: admin123')

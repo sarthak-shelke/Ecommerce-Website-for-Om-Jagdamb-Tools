@@ -2,7 +2,7 @@
 
 ## Overview
 
-This design document outlines the implementation approach for comprehensive user profile functionality in the Om Jagdamba Tools e-commerce application. The solution will enhance the existing authentication system by adding proper profile management, dashboard functionality, wishlist management, and user settings through a combination of dedicated pages and modal interfaces.
+This design document outlines the implementation approach for comprehensive user profile functionality in the Om Jagdamb Tools e-commerce application. The solution will enhance the existing authentication system by adding proper profile management, dashboard functionality, wishlist management, and user settings through a combination of dedicated pages and modal interfaces.
 
 ## Architecture
 

@@ -114,7 +114,7 @@ class ForgotPasswordView(generics.GenericAPIView):
             reset_link = f"{settings.FRONTEND_URL}/reset-password/{uid}/{token}/"
             
             send_mail(
-                'Password Reset - Om Jagdamba Tools',
+                'Password Reset - Om Jagdamb Tools',
                 f'Click here to reset your password: {reset_link}',
                 settings.EMAIL_HOST_USER,
                 [email],

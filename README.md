@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# Om Jagdamba Tools and Services - E-Commerce Website
+# Om Jagdamb Tools and Services - E-Commerce Website
 
 A modern, responsive e-commerce website for construction tools and services, built with HTML, CSS, and JavaScript. Features smooth animations, secure payment integration simulation, and an intuitive user interface.
 
@@ -29,7 +29,7 @@ A modern, responsive e-commerce website for construction tools and services, bui
 ## 📁 Project Structure
 
 ```
-om-jagdamba-tools/
+om-jagdamb-tools/
 ├── index.html          # Homepage with hero section and product showcase
 ├── about.html          # About us page with company information
 ├── contact.html        # Contact page with form and FAQ
@@ -192,14 +192,14 @@ For questions or support regarding this project:
 
 ## 📄 License
 
-This project is created for Om Jagdamba Tools and Services. All rights reserved.
+This project is created for Om Jagdamb Tools and Services. All rights reserved.
 
 ---
 
 **Built with ❤️ for the construction industry**
 
 =======
-# Om Jagdamba Tools and Services - E-Commerce Website
+# Om Jagdamb Tools and Services - E-Commerce Website
 
 A modern, responsive e-commerce website for construction tools and services, built with HTML, CSS, and JavaScript. Features smooth animations, secure payment integration simulation, and an intuitive user interface.
 
@@ -229,7 +229,7 @@ A modern, responsive e-commerce website for construction tools and services, bui
 ## 📁 Project Structure
 
 ```
-om-jagdamba-tools/
+om-jagdamb-tools/
 ├── index.html          # Homepage with hero section and product showcase
 ├── about.html          # About us page with company information
 ├── contact.html        # Contact page with form and FAQ
@@ -392,7 +392,7 @@ For questions or support regarding this project:
 
 ## 📄 License
 
-This project is created for Om Jagdamba Tools and Services. All rights reserved.
+This project is created for Om Jagdamb Tools and Services. All rights reserved.
 
 ---
 

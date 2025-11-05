@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 
 class User(AbstractUser):
-    """Custom User model for Om Jagdamba Tools"""
+    """Custom User model for Om Jagdamb Tools"""
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)

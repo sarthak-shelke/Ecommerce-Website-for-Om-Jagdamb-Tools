@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 /**
  * Admin Dashboard JavaScript
- * Handles admin panel functionality for Om Jagdamba Tools
+ * Handles admin panel functionality for Om Jagdamb Tools
  */
 
 // Global variables
@@ -433,7 +433,7 @@ function exportData() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `om-jagdamba-products-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `om-jagdamb-products-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -460,7 +460,7 @@ function createSettingsModal() {
                 <h3>Site Configuration</h3>
                 <div class="form-group">
                     <label>Site Name:</label>
-                    <input type="text" value="Om Jagdamba Tools" readonly>
+                    <input type="text" value="Om Jagdamb Tools" readonly>
                 </div>
                 <div class="form-group">
                     <label>Currency:</label>
@@ -521,7 +521,7 @@ function backupData() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `om-jagdamba-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `om-jagdamb-backup-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -788,7 +788,7 @@ style.textContent = `
 =======
 /**
  * Admin Dashboard JavaScript
- * Handles admin panel functionality for Om Jagdamba Tools
+ * Handles admin panel functionality for Om Jagdamb Tools
  */
 
 // Global variables
@@ -1220,7 +1220,7 @@ function exportData() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `om-jagdamba-products-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `om-jagdamb-products-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -1247,7 +1247,7 @@ function createSettingsModal() {
                 <h3>Site Configuration</h3>
                 <div class="form-group">
                     <label>Site Name:</label>
-                    <input type="text" value="Om Jagdamba Tools" readonly>
+                    <input type="text" value="Om Jagdamb Tools" readonly>
                 </div>
                 <div class="form-group">
                     <label>Currency:</label>
@@ -1308,7 +1308,7 @@ function backupData() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `om-jagdamba-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `om-jagdamb-backup-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
