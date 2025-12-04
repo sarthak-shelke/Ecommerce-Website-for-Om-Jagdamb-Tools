@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - Om Jagdamb Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            padding-top: 80px;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .welcome-section h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .welcome-section p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon.orders { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .stat-icon.wishlist { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .stat-icon.spent { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .stat-icon.points { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .dashboard-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .order-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .order-info h4 {
+            margin: 0 0 0.5rem 0;
+            color: #333;
+        }
+        
+        .order-info p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .order-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-processing {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-delivered {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .quick-actions {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .wishlist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .wishlist-image {
+            width: 60px;
+            height: 60px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+        
+        .wishlist-info h4 {
+            margin: 0 0 0.25rem 0;
+            color: #333;
+        }
+        
+        .wishlist-info p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-container {
+                padding: 1rem;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="om-jagdamb-tools-services-logo.jpg" alt="Om Jagdamb Tools Logo" class="logo-image">
+                    <span>Om Jagdamb Tools</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="product_webpage.html" class="nav-link">Products</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <div class="search-icon"><i class="fas fa-search"></i></div>
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <div id="user-auth-section">
+                        <!-- User account will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="welcome-section">
+                <h1>Welcome back, <span id="user-name">User</span>!</h1>
+                <p>Here's what's happening with your account today.</p>
+            </div>
+            <div>
+                <img src="" alt="User Avatar" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid white;" id="user-avatar">
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-icon orders">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <div class="stat-number" id="total-orders">0</div>
+                <div class="stat-label">Total Orders</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon wishlist">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="stat-number" id="wishlist-count">0</div>
+                <div class="stat-label">Wishlist Items</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon spent">
+                    <i class="fas fa-rupee-sign"></i>
+                </div>
+                <div class="stat-number" id="total-spent">₹0</div>
+                <div class="stat-label">Total Spent</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon points">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-number" id="loyalty-points">0</div>
+                <div class="stat-label">Loyalty Points</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Recent Orders -->
+            <div class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-shopping-bag"></i> Recent Orders
+                </h2>
+                <div id="recent-orders">
+                    <!-- Sample orders for demo -->
+                    <div class="order-item">
+                        <div class="order-info">
+                            <h4>Order #OMJ001</h4>
+                            <p>Manual Riveter, Pneumatic Screwdriver</p>
+                            <p>Ordered on: Nov 1, 2024</p>
+                        </div>
+                        <div>
+                            <div class="order-status status-processing">Processing</div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #333;">₹3,398</p>
+                        </div>
+                    </div>
+                    
+                    <div class="order-item">
+                        <div class="order-info">
+                            <h4>Order #OMJ002</h4>
+                            <p>Safety Helmet, Safety Gloves</p>
+                            <p>Ordered on: Oct 28, 2024</p>
+                        </div>
+                        <div>
+                            <div class="order-status status-delivered">Delivered</div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #333;">₹798</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="profile.html" style="color: #667eea; text-decoration: none; font-weight: 600; margin-top: 1rem; display: inline-block;">
+                    View All Orders →
+                </a>
+            </div>
+
+            <!-- Quick Actions & Wishlist -->
+            <div>
+                <!-- Quick Actions -->
+                <div class="dashboard-section" style="margin-bottom: 2rem;">
+                    <h2 class="section-title">
+                        <i class="fas fa-bolt"></i> Quick Actions
+                    </h2>
+                    <div class="quick-actions">
+                        <a href="product_webpage.html" class="action-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Shop Products</span>
+                        </a>
+                        <a href="profile.html" class="action-btn">
+                            <i class="fas fa-user"></i>
+                            <span>Edit Profile</span>
+                        </a>
+                        <a href="#" class="action-btn" onclick="showSupport()">
+                            <i class="fas fa-headset"></i>
+                            <span>Contact Support</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Recent Wishlist -->
+                <div class="dashboard-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-heart"></i> Wishlist
+                    </h2>
+                    <div id="wishlist-preview">
+                        <!-- Sample wishlist items for demo -->
+                        <div class="wishlist-item">
+                            <div class="wishlist-image">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div class="wishlist-info">
+                                <h4>Angle Grinder</h4>
+                                <p>₹3,299</p>
+                            </div>
+                        </div>
+                        
+                        <div class="wishlist-item">
+                            <div class="wishlist-image">
+                                <i class="fas fa-hammer"></i>
+                            </div>
+                            <div class="wishlist-info">
+                                <h4>Professional Hammer</h4>
+                                <p>₹899</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="wishlist.html" style="color: #667eea; text-decoration: none; font-weight: 600; margin-top: 1rem; display: inline-block;">
+                        View All Wishlist →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="auth-helper.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in using consistent auth check
+            if (!requireAuth()) {
+                return; // requireAuth handles redirect
+            }
+            
+            // Initialize dashboard
+            initializeDashboard();
+        });
+
+        function initializeDashboard() {
+            const userEmail = getUserEmail();
+            const displayName = getUserDisplayName();
+            
+            // Set user name
+            document.getElementById('user-name').textContent = displayName;
+            
+            // Set avatar
+            const avatarUrl = generateAvatar(userEmail);
+            document.getElementById('user-avatar').src = avatarUrl;
+            
+            // Load user stats
+            loadUserStats();
+        }
+
+        function loadUserStats() {
+            // Load from localStorage or set defaults
+            document.getElementById('total-orders').textContent = localStorage.getItem('userTotalOrders') || '2';
+            document.getElementById('wishlist-count').textContent = localStorage.getItem('userWishlistCount') || '2';
+            document.getElementById('total-spent').textContent = '₹' + (localStorage.getItem('userTotalSpent') || '4,196');
+            document.getElementById('loyalty-points').textContent = localStorage.getItem('userLoyaltyPoints') || '420';
+        }
+
+        function generateAvatar(email) {
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe', '#43e97b', '#38f9d7'];
+            const initial = email.charAt(0).toUpperCase();
+            const colorIndex = email.charCodeAt(0) % colors.length;
+            const color = colors[colorIndex];
+            
+            return `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><rect width="80" height="80" fill="${encodeURIComponent(color)}" rx="40"/><text x="40" y="52" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="32" font-weight="bold">${initial}</text></svg>`;
+        }
+
+        function showSupport() {
+            alert('Support feature will be implemented soon! For now, please contact us at support@omjagdambtools.com');
+        }
+    </script>
+</html>

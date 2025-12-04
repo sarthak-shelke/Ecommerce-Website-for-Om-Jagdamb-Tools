@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - API Test</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f3f4f6; }
+        .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .login-card { background: white; border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        .login-btn { padding: 0.75rem; background: #6366f1; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        #error-message { color: red; margin-top: 10px; display: block; text-align: center; }
+        input { width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h1 style="text-align: center; margin-bottom: 20px;">Create Account </h1>
+            
+            <p id="error-message"></p>
+
+            <form id="signupForm">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="text" id="first-name" placeholder="First Name" required>
+                <input type="text" id="last-name" placeholder="Last Name" required>
+                <input type="password" id="password" placeholder="Password (min 8 chars)" required>
+                <input type="password" id="password-confirm" placeholder="Confirm Password" required>
+
+                <button type="submit" class="login-btn" id="signup-btn">
+                    Sign Up
+                </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                Already have an account? <a href="login.html">Log in here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Validation Functions (Simplified) ---
+        function validateEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+        function validatePassword(password) { return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/.test(password); }
+        function validateUsername(username) { return /^[a-zA-Z0-9_]{3,20}$/.test(username); }
+        
+        function showError(message) { const el = document.getElementById('error-message'); if (el) { el.textContent = message; el.style.color = '#e53e3e'; el.style.display = 'block'; } }
+        function showSuccess(message) { const el = document.getElementById('error-message'); if (el) { el.textContent = message; el.style.color = '#28a745'; el.style.display = 'block'; } }
+        function clearMessage() { const el = document.getElementById('error-message'); if (el) { el.textContent = ''; el.style.display = 'none'; } }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('signupForm');
+            const submitBtn = document.getElementById('signup-btn');
+
+            if (!form || !submitBtn) return; // Safety exit if form elements are missing
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                clearMessage();
+                
+                // Get values
+                const data = {
+                    username: document.getElementById('username').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    first_name: document.getElementById('first-name').value.trim(), 
+                    last_name: document.getElementById('last-name').value.trim(),   
+                    password: document.getElementById('password').value, 
+                    password_confirm: document.getElementById('password-confirm').value
+                };
+                
+                // --- Validation Check (Minimal) ---
+                if (data.password !== data.password_confirm || !validatePassword(data.password)) {
+                    showError('Passwords must match and meet requirements.');
+                    return;
+                }
+                
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Creating Account...';
+                submitBtn.disabled = true;
+
+                const registerApiUrl = 'http://127.0.0.1:8000/api/auth/register/';
+
+                try {
+                    const response = await fetch(registerApiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+
+                    const responseData = await response.json();
+                    
+                    if (response.ok) {
+                        // SUCCESS! Account is created.
+                        showSuccess('Account created! Redirecting to login...');
+                        submitBtn.style.background = '#28a745';
+                        submitBtn.textContent = 'Success! Redirecting...';
+                        
+                        // --- FINAL REDIRECT TO LOGIN ---
+                        setTimeout(() => {
+                            window.location.href = 'login.html'; 
+                        }, 1500);
+                        
+                    } else {
+                        // Handle error response from Django
+                        let messageToUser = 'Registration failed. Check the console for details.';
+                        if (responseData) {
+                            try {
+                                const errorJson = responseData;
+                                messageToUser = Object.keys(errorJson).map(key => {
+                                    const value = Array.isArray(errorJson[key]) ? errorJson[key][0] : errorJson[key];
+                                    return `${key.replace(/_/g, ' ')}: ${value}`;
+                                }).join(', ');
+                            } catch { /* Use default message */ }
+                        }
+                        throw new Error(messageToUser);
+                    }
+
+                } catch (error) {
+                    showError(error.message || 'Server connection failed.');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

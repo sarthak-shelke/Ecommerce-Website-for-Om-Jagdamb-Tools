@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Om Jagdamb Tools</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .success-icon {
+            animation: scaleIn 0.5s ease-out;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <img src="om-jagdamb-tools-services-logo.jpg" alt="Logo" class="h-10 w-auto mr-2">
+                        <span class="text-xl font-bold text-gray-900">Om Jagdamb Tools</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-8 pb-16">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Success Message -->
+            <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                <div class="success-icon mb-6">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-check text-4xl text-green-600"></i>
+                    </div>
+                </div>
+                
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Order Placed Successfully!</h1>
+                <p class="text-gray-600 mb-6">Thank you for your order. We'll send you a confirmation email shortly.</p>
+                
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-gray-600 mb-1">Order Number</p>
+                    <p class="text-2xl font-bold text-blue-600" id="order-number">Loading...</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-sm text-gray-600 mb-1">
+                            <i class="fas fa-calendar-alt mr-2"></i>Order Date
+                        </p>
+                        <p class="font-semibold text-gray-900" id="order-date">-</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-sm text-gray-600 mb-1">
+                            <i class="fas fa-rupee-sign mr-2"></i>Total Amount
+                        </p>
+                        <p class="font-semibold text-gray-900" id="order-total">-</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <a href="index.html" class="block w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        <i class="fas fa-home mr-2"></i>Continue Shopping
+                    </a>
+                    <a href="dashboard.html" class="block w-full bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition">
+                        <i class="fas fa-list mr-2"></i>View My Orders
+                    </a>
+                </div>
+            </div>
+            
+            <!-- What's Next -->
+            <div class="mt-8 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">What happens next?</h2>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 font-semibold">1</span>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-semibold text-gray-900">Order Confirmation</h3>
+                            <p class="text-gray-600 text-sm">You'll receive an email confirmation with your order details.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 font-semibold">2</span>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-semibold text-gray-900">Order Processing</h3>
+                            <p class="text-gray-600 text-sm">We'll prepare your items for shipment.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 font-semibold">3</span>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-semibold text-gray-900">Shipping</h3>
+                            <p class="text-gray-600 text-sm">Your order will be shipped and you'll receive tracking information.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 font-semibold">4</span>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-semibold text-gray-900">Delivery</h3>
+                            <p class="text-gray-600 text-sm">Your order will be delivered to your address.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Get order ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        
+        if (orderId) {
+            // Display order number
+            document.getElementById('order-number').textContent = orderId.substring(0, 8).toUpperCase();
+            
+            // Display order date
+            const orderDate = new Date().toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('order-date').textContent = orderDate;
+            
+            // Try to get order total from localStorage
+            const orderSummary = localStorage.getItem('orderSummary');
+            if (orderSummary) {
+                try {
+                    const summary = JSON.parse(orderSummary);
+                    document.getElementById('order-total').textContent = `₹${summary.total.toFixed(2)}`;
+                } catch (e) {
+                    console.error('Error parsing order summary:', e);
+                }
+            }
+        } else {
+            document.getElementById('order-number').textContent = 'N/A';
+        }
+    </script>
+</body>
+</html>

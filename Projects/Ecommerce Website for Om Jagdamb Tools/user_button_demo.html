@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details Button Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 2rem;
+            background: #f5f5f5;
+            font-family: 'Poppins', sans-serif;
+        }
+        .demo-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .demo-section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .demo-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .demo-btn-login {
+            background: #667eea;
+            color: white;
+        }
+        .demo-btn-logout {
+            background: #dc3545;
+            color: white;
+        }
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .demo-preview {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        .nav-icons-demo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .status-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .status-logged-out {
+            background: #ffc107;
+            color: #333;
+        }
+        .status-logged-in {
+            background: #28a745;
+            color: white;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-section">
+        <h1 style="text-align: center; color: #667eea;">👤 User Details Button Demo</h1>
+        <p style="text-align: center; color: #666;">Interactive demonstration of the login-only user button</p>
+        
+        <div class="status-indicator" id="status-indicator">
+            <i class="fas fa-circle"></i> Status: Not Logged In
+        </div>
+
+        <div class="demo-controls">
+            <button class="demo-btn demo-btn-login" onclick="simulateLogin()">
+                <i class="fas fa-sign-in-alt"></i> Simulate Login
+            </button>
+            <button class="demo-btn demo-btn-logout" onclick="simulateLogout()">
+                <i class="fas fa-sign-out-alt"></i> Simulate Logout
+            </button>
+        </div>
+
+        <div class="demo-preview">
+            <h3 style="margin-bottom: 1rem;">Header Preview:</h3>
+            <div class="nav-icons-demo">
+                <!-- Login Button (shown when not logged in) -->
+                <a href="login.html" class="login-btn-nav" id="demo-login-btn">
+                    <i class="fas fa-user"></i>
+                    Login
+                </a>
+                
+                <!-- User Details Button (shown when logged in) -->
+                <a href="profile.html" class="user-details-btn" id="demo-user-details-btn" style="display: none;">
+                    <i class="fas fa-user-circle"></i>
+                    <span>My Account</span>
+                </a>
+                
+                <!-- User Dropdown (shown when logged in) -->
+                <div class="user-account-dropdown" id="demo-user-account" style="display: none;">
+                    <div class="user-account-trigger">
+                        <img src="" alt="User Avatar" class="user-avatar" id="demo-user-avatar" style="width: 35px; height: 35px; border-radius: 50%;">
+                        <span class="user-name" id="demo-user-name">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 How it works:</strong>
+            <ul style="margin: 0.5rem 0 0 1.5rem;">
+                <li>When logged out: Shows "Login" button</li>
+                <li>When logged in: Shows "My Account" button + User dropdown</li>
+                <li>Button automatically appears/disappears based on auth state</li>
+                <li>Clicking "My Account" redirects to profile.html</li>
+            </ul>
+        </div>
+
+        <h2>Implementation Details</h2>
+        
+        <h3>HTML Structure:</h3>
+        <div class="code-block">
+&lt;!-- User Details Button (shown when logged in) --&gt;
+&lt;a href="profile.html" class="user-details-btn" id="user-details-btn" style="display: none;"&gt;
+    &lt;i class="fas fa-user-circle"&gt;&lt;/i&gt;
+    &lt;span&gt;My Account&lt;/span&gt;
+&lt;/a&gt;
+        </div>
+
+        <h3>JavaScript Control:</h3>
+        <div class="code-block">
+// Show button when logged in
+function showUserAccount(email, isAdmin) {
+    const userDetailsBtn = document.getElementById('user-details-btn');
+    if (userDetailsBtn) userDetailsBtn.style.display = 'flex';
+}
+
+// Hide button when logged out
+function showLoginButton() {
+    const userDetailsBtn = document.getElementById('user-details-btn');
+    if (userDetailsBtn) userDetailsBtn.style.display = 'none';
+}
+        </div>
+
+        <h3>Features:</h3>
+        <ul style="color: #666; line-height: 1.8;">
+            <li>✅ Only visible after login</li>
+            <li>✅ Gradient purple-blue design</li>
+            <li>✅ Smooth hover animations</li>
+            <li>✅ Responsive (icon-only on mobile)</li>
+            <li>✅ Links to user profile page</li>
+            <li>✅ Integrates with existing auth system</li>
+        </ul>
+    </div>
+
+    <script>
+        function generateAvatar(email) {
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c'];
+            const initial = email.charAt(0).toUpperCase();
+            const colorIndex = email.charCodeAt(0) % colors.length;
+            const color = colors[colorIndex];
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = 100;
+            canvas.height = 100;
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, 100, 100);
+            
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 50px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(initial, 50, 50);
+            
+            return canvas.toDataURL();
+        }
+
+        function simulateLogin() {
+            const loginBtn = document.getElementById('demo-login-btn');
+            const userDetailsBtn = document.getElementById('demo-user-details-btn');
+            const userAccount = document.getElementById('demo-user-account');
+            const userNameEl = document.getElementById('demo-user-name');
+            const userAvatar = document.getElementById('demo-user-avatar');
+            const statusIndicator = document.getElementById('status-indicator');
+            
+            // Hide login button
+            if (loginBtn) loginBtn.style.display = 'none';
+            
+            // Show user details button and dropdown
+            if (userDetailsBtn) userDetailsBtn.style.display = 'flex';
+            if (userAccount) userAccount.style.display = 'block';
+            
+            // Set user info
+            const email = 'demo@example.com';
+            if (userNameEl) userNameEl.textContent = email.split('@')[0];
+            if (userAvatar) userAvatar.src = generateAvatar(email);
+            
+            // Update status
+            statusIndicator.className = 'status-indicator status-logged-in';
+            statusIndicator.innerHTML = '<i class="fas fa-check-circle"></i> Status: Logged In as demo@example.com';
+        }
+
+        function simulateLogout() {
+            const loginBtn = document.getElementById('demo-login-btn');
+            const userDetailsBtn = document.getElementById('demo-user-details-btn');
+            const userAccount = document.getElementById('demo-user-account');
+            const statusIndicator = document.getElementById('status-indicator');
+            
+            // Show login button
+            if (loginBtn) loginBtn.style.display = 'flex';
+            
+            // Hide user details button and dropdown
+            if (userDetailsBtn) userDetailsBtn.style.display = 'none';
+            if (userAccount) userAccount.style.display = 'none';
+            
+            // Update status
+            statusIndicator.className = 'status-indicator status-logged-out';
+            statusIndicator.innerHTML = '<i class="fas fa-circle"></i> Status: Not Logged In';
+        }
+
+        // Start in logged out state
+        simulateLogout();
+    </script>
+</body>
+</html>

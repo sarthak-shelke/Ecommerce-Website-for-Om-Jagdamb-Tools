@@ -1,0 +1,414 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Integration Test - Om Jagdamb Tools</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        button {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #357ABD; }
+        .results {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Backend Integration Test</h1>
+    <p>This page tests the connection between your frontend and Django backend.</p>
+
+    <div class="test-section">
+        <h2>📡 Connection Status</h2>
+        <div id="connection-status" class="status warning">Checking connection...</div>
+        <button onclick="testConnection()">Test Connection</button>
+    </div>
+
+    <div class="test-section">
+        <h2>📦 Products API Test</h2>
+        <button onclick="testProducts()">Load Products</button>
+        <button onclick="testFeaturedProducts()">Load Featured Products</button>
+        <div id="products-results" class="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔐 Authentication Test</h2>
+        <div>
+            <input type="email" id="test-email" placeholder="Email" value="test@example.com">
+            <input type="password" id="test-password" placeholder="Password" value="testpass123">
+        </div>
+        <button onclick="testLogin()">Test Login</button>
+        <button onclick="testLogout()">Test Logout</button>
+        <div id="auth-results" class="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🛒 Cart API Test</h2>
+        <button onclick="testCart()">Get Cart</button>
+        <button onclick="testAddToCart()">Add Test Item to Cart</button>
+        <div id="cart-results" class="results"></div>
+    </div>
+
+    <!-- Backend Integration -->
+    <script src="ecommerce_backend/backend_integration.js"></script>
+    <script>
+        let testResults = {};
+
+        async function testConnection() {
+            const statusDiv = document.getElementById('connection-status');
+            statusDiv.textContent = 'Testing connection...';
+            statusDiv.className = 'status warning';
+
+            try {
+                const isConnected = await backendAPI.checkConnection();
+                if (isConnected) {
+                    statusDiv.textContent = '✅ Backend connection successful!';
+                    statusDiv.className = 'status success';
+                    testResults.connection = true;
+                } else {
+                    statusDiv.textContent = '❌ Backend not reachable. Make sure Django server is running on http://127.0.0.1:8000';
+                    statusDiv.className = 'status error';
+                    testResults.connection = false;
+                }
+            } catch (error) {
+                statusDiv.textContent = `❌ Connection error: ${error.message}`;
+                statusDiv.className = 'status error';
+                testResults.connection = false;
+            }
+        }
+
+        async function testProducts() {
+            const resultsDiv = document.getElementById('products-results');
+            resultsDiv.textContent = 'Loading products...';
+
+            try {
+                const products = await backendAPI.products.getAll();
+                resultsDiv.textContent = `✅ Products loaded successfully!\n\nCount: ${products.length}\n\nSample data:\n${JSON.stringify(products.slice(0, 2), null, 2)}`;
+                testResults.products = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Products test failed: ${error.message}`;
+                testResults.products = false;
+            }
+        }
+
+        async function testFeaturedProducts() {
+            const resultsDiv = document.getElementById('products-results');
+            resultsDiv.textContent = 'Loading featured products...';
+
+            try {
+                const products = await backendAPI.products.getFeatured();
+                resultsDiv.textContent = `✅ Featured products loaded successfully!\n\nCount: ${products.length}\n\nSample data:\n${JSON.stringify(products.slice(0, 2), null, 2)}`;
+                testResults.featuredProducts = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Featured products test failed: ${error.message}`;
+                testResults.featuredProducts = false;
+            }
+        }
+
+        async function testLogin() {
+            const resultsDiv = document.getElementById('auth-results');
+            const email = document.getElementById('test-email').value;
+            const password = document.getElementById('test-password').value;
+
+            resultsDiv.textContent = 'Testing login...';
+
+            try {
+                const response = await backendAPI.auth.login(email, password);
+                resultsDiv.textContent = `✅ Login test successful!\n\nResponse:\n${JSON.stringify(response, null, 2)}`;
+                testResults.login = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Login test failed: ${error.message}`;
+                testResults.login = false;
+            }
+        }
+
+        async function testLogout() {
+            const resultsDiv = document.getElementById('auth-results');
+            resultsDiv.textContent = 'Testing logout...';
+
+            try {
+                await backendAPI.auth.logout();
+                resultsDiv.textContent = '✅ Logout test successful!';
+                testResults.logout = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Logout test failed: ${error.message}`;
+                testResults.logout = false;
+            }
+        }
+
+        async function testCart() {
+            const resultsDiv = document.getElementById('cart-results');
+            resultsDiv.textContent = 'Loading cart...';
+
+            try {
+                const cart = await backendAPI.cart.get();
+                resultsDiv.textContent = `✅ Cart loaded successfully!\n\nCart data:\n${JSON.stringify(cart, null, 2)}`;
+                testResults.cart = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Cart test failed: ${error.message}`;
+                testResults.cart = false;
+            }
+        }
+
+        async function testAddToCart() {
+            const resultsDiv = document.getElementById('cart-results');
+            resultsDiv.textContent = 'Adding test item to cart...';
+
+            try {
+                const response = await backendAPI.cart.add(1, 1); // Add product ID 1 with quantity 1
+                resultsDiv.textContent = `✅ Add to cart test successful!\n\nResponse:\n${JSON.stringify(response, null, 2)}`;
+                testResults.addToCart = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Add to cart test failed: ${error.message}`;
+                testResults.addToCart = false;
+            }
+        }
+
+        // Auto-test connection on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(testConnection, 1000);
+        });
+    </script>
+</body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Integration Test - Om Jagdamb Tools</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        button {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #357ABD; }
+        .results {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Backend Integration Test</h1>
+    <p>This page tests the connection between your frontend and Django backend.</p>
+
+    <div class="test-section">
+        <h2>📡 Connection Status</h2>
+        <div id="connection-status" class="status warning">Checking connection...</div>
+        <button onclick="testConnection()">Test Connection</button>
+    </div>
+
+    <div class="test-section">
+        <h2>📦 Products API Test</h2>
+        <button onclick="testProducts()">Load Products</button>
+        <button onclick="testFeaturedProducts()">Load Featured Products</button>
+        <div id="products-results" class="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔐 Authentication Test</h2>
+        <div>
+            <input type="email" id="test-email" placeholder="Email" value="test@example.com">
+            <input type="password" id="test-password" placeholder="Password" value="testpass123">
+        </div>
+        <button onclick="testLogin()">Test Login</button>
+        <button onclick="testLogout()">Test Logout</button>
+        <div id="auth-results" class="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🛒 Cart API Test</h2>
+        <button onclick="testCart()">Get Cart</button>
+        <button onclick="testAddToCart()">Add Test Item to Cart</button>
+        <div id="cart-results" class="results"></div>
+    </div>
+
+    <!-- Backend Integration -->
+    <script src="ecommerce_backend/backend_integration.js"></script>
+    <script>
+        let testResults = {};
+
+        async function testConnection() {
+            const statusDiv = document.getElementById('connection-status');
+            statusDiv.textContent = 'Testing connection...';
+            statusDiv.className = 'status warning';
+
+            try {
+                const isConnected = await backendAPI.checkConnection();
+                if (isConnected) {
+                    statusDiv.textContent = '✅ Backend connection successful!';
+                    statusDiv.className = 'status success';
+                    testResults.connection = true;
+                } else {
+                    statusDiv.textContent = '❌ Backend not reachable. Make sure Django server is running on http://127.0.0.1:8000';
+                    statusDiv.className = 'status error';
+                    testResults.connection = false;
+                }
+            } catch (error) {
+                statusDiv.textContent = `❌ Connection error: ${error.message}`;
+                statusDiv.className = 'status error';
+                testResults.connection = false;
+            }
+        }
+
+        async function testProducts() {
+            const resultsDiv = document.getElementById('products-results');
+            resultsDiv.textContent = 'Loading products...';
+
+            try {
+                const products = await backendAPI.products.getAll();
+                resultsDiv.textContent = `✅ Products loaded successfully!\n\nCount: ${products.length}\n\nSample data:\n${JSON.stringify(products.slice(0, 2), null, 2)}`;
+                testResults.products = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Products test failed: ${error.message}`;
+                testResults.products = false;
+            }
+        }
+
+        async function testFeaturedProducts() {
+            const resultsDiv = document.getElementById('products-results');
+            resultsDiv.textContent = 'Loading featured products...';
+
+            try {
+                const products = await backendAPI.products.getFeatured();
+                resultsDiv.textContent = `✅ Featured products loaded successfully!\n\nCount: ${products.length}\n\nSample data:\n${JSON.stringify(products.slice(0, 2), null, 2)}`;
+                testResults.featuredProducts = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Featured products test failed: ${error.message}`;
+                testResults.featuredProducts = false;
+            }
+        }
+
+        async function testLogin() {
+            const resultsDiv = document.getElementById('auth-results');
+            const email = document.getElementById('test-email').value;
+            const password = document.getElementById('test-password').value;
+
+            resultsDiv.textContent = 'Testing login...';
+
+            try {
+                const response = await backendAPI.auth.login(email, password);
+                resultsDiv.textContent = `✅ Login test successful!\n\nResponse:\n${JSON.stringify(response, null, 2)}`;
+                testResults.login = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Login test failed: ${error.message}`;
+                testResults.login = false;
+            }
+        }
+
+        async function testLogout() {
+            const resultsDiv = document.getElementById('auth-results');
+            resultsDiv.textContent = 'Testing logout...';
+
+            try {
+                await backendAPI.auth.logout();
+                resultsDiv.textContent = '✅ Logout test successful!';
+                testResults.logout = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Logout test failed: ${error.message}`;
+                testResults.logout = false;
+            }
+        }
+
+        async function testCart() {
+            const resultsDiv = document.getElementById('cart-results');
+            resultsDiv.textContent = 'Loading cart...';
+
+            try {
+                const cart = await backendAPI.cart.get();
+                resultsDiv.textContent = `✅ Cart loaded successfully!\n\nCart data:\n${JSON.stringify(cart, null, 2)}`;
+                testResults.cart = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Cart test failed: ${error.message}`;
+                testResults.cart = false;
+            }
+        }
+
+        async function testAddToCart() {
+            const resultsDiv = document.getElementById('cart-results');
+            resultsDiv.textContent = 'Adding test item to cart...';
+
+            try {
+                const response = await backendAPI.cart.add(1, 1); // Add product ID 1 with quantity 1
+                resultsDiv.textContent = `✅ Add to cart test successful!\n\nResponse:\n${JSON.stringify(response, null, 2)}`;
+                testResults.addToCart = true;
+            } catch (error) {
+                resultsDiv.textContent = `❌ Add to cart test failed: ${error.message}`;
+                testResults.addToCart = false;
+            }
+        }
+
+        // Auto-test connection on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(testConnection, 1000);
+        });
+    </script>
+</body>
+>>>>>>> 1a1e704d7eebaa3dc35e5fc0b35307bad07426c9
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products - Om Jagdamb Tools</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="search.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            --primary-blue: #4A90E2; /* Blue from your loading screen */
+        }
+        /* Override Tailwind's default blue */
+        .bg-blue-600 { background-color: var(--primary-blue); }
+        .hover\:bg-blue-700:hover { background-color: #357ABD; }
+        .text-blue-600 { color: var(--primary-blue); }
+        .hover\:text-blue-600:hover { color: var(--primary-blue); }
+        .focus\:ring-blue-500:focus { --tw-ring-color: var(--primary-blue); }
+        .border-blue-600 { border-color: var(--primary-blue); }
+        .focus\:border-blue-500:focus { border-color: var(--primary-blue); }
+
+        /* Custom styles for dropdowns */
+        .dropdown-menu {
+            display: none; /* Starts hidden */
+            position: absolute;
+            background-color: #fff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 10;
+            left: 0; 
+        }
+        .dropdown-menu a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            cursor: pointer; /* Show it's clickable */
+        }
+        .dropdown-menu a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Modern Header Styles to match homepage */
+        .header-modern {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-link-modern {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+        }
+
+        .nav-link-modern:hover {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-link-modern::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: #667eea;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link-modern:hover::after {
+            width: 80%;
+        }
+
+        .nav-link-active {
+            color: #667eea !important;
+            font-weight: 600;
+        }
+
+        .nav-link-active::after {
+            width: 80%;
+        }
+
+        .cart-icon-modern {
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+            position: relative;
+            color: #333;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+        }
+
+        .cart-icon-modern:hover {
+            color: #667eea;
+        }
+
+        .text-purple-600 {
+            color: #667eea !important;
+        }
+
+        /* Add top margin to main content to account for fixed header */
+        main {
+            margin-top: 80px;
+        }
+
+        /* Mobile Menu Styles */
+        .hamburger-modern {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger-modern span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger-modern.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger-modern.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-modern.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-menu-modern {
+            display: none;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .mobile-menu-modern.active {
+            display: block;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            color: #333;
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 0.375rem;
+            margin: 0.25rem 0;
+        }
+
+        .mobile-nav-link:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            text-decoration: none;
+        }
+
+        .mobile-nav-active {
+            color: #667eea !important;
+            font-weight: 600;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        @media (max-width: 640px) {
+            .hamburger-modern {
+                display: flex;
+            }
+        }
+
+        /* Additional header alignment styles */
+        .header-modern .search-container {
+            max-width: 220px;
+        }
+
+        @media (min-width: 768px) {
+            .header-modern .search-container {
+                max-width: 260px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .header-modern .search-container {
+                max-width: 300px;
+            }
+        }
+
+        /* Ensure proper spacing */
+        .header-modern nav > div {
+            gap: 0.75rem;
+        }
+
+        /* Cart icon positioning fix */
+        .cart-icon-modern {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Mobile menu search styling */
+        .mobile-menu-modern .search-container {
+            max-width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .mobile-menu-modern .search-input {
+            width: 100%;
+            font-size: 16px;
+            padding: 10px 40px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <header class="header-modern">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <div class="flex justify-between items-center h-16 gap-4">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <img src="om-jagdamb-tools-services-logo.jpg" alt="Om Jagdamba Tools Logo" class="h-10 w-10 mr-3 rounded-full">
+                    <span class="text-xl sm:text-2xl font-bold text-purple-600">Om Jagdamb Tools</span>
+                </div>
+                
+                <!-- Desktop Navigation Links -->
+                <div class="hidden lg:flex items-center space-x-3">
+                    <a href="index.html" class="nav-link-modern">Home</a>
+                    <a href="product_webpage.html" class="nav-link-modern nav-link-active">Products</a>
+                    <a href="index.html#services" class="nav-link-modern">Services</a>
+                    <a href="about.html" class="nav-link-modern">About</a>
+                    <a href="contact.html" class="nav-link-modern">Contact</a>
+                </div>
+                
+                <!-- Right Side: Search + Cart + Hamburger -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Search Container -->
+                    <div class="search-container hidden sm:flex" role="search">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input 
+                                type="text" 
+                                id="product-search-input" 
+                                class="search-input" 
+                                placeholder="Search..."
+                                autocomplete="off"
+                                aria-label="Search products"
+                            >
+                            <div class="search-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                        <div class="search-results-dropdown" id="search-results" style="display: none;" role="listbox" aria-live="polite">
+                            <!-- Results will be dynamically inserted here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Cart Icon -->
+                    <a href="cart.html" class="cart-icon-modern relative">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                    </a>
+                    
+                    <!-- Hamburger Menu (Mobile) -->
+                    <div class="hamburger-modern lg:hidden">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="mobile-menu-modern sm:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <!-- Mobile Search -->
+                    <div class="search-container mb-3" role="search" style="max-width: 100%;">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input 
+                                type="text" 
+                                id="product-search-input-mobile" 
+                                class="search-input" 
+                                placeholder="Search products..."
+                                autocomplete="off"
+                                aria-label="Search products"
+                            >
+                            <div class="search-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                        <div class="search-results-dropdown" id="search-results-mobile" style="display: none;" role="listbox" aria-live="polite">
+                            <!-- Results will be dynamically inserted here -->
+                        </div>
+                    </div>
+                    
+                    <a href="index.html" class="mobile-nav-link">Home</a>
+                    <a href="product_webpage.html" class="mobile-nav-link mobile-nav-active">Products</a>
+                    <a href="index.html#services" class="mobile-nav-link">Services</a>
+                    <a href="about.html" class="mobile-nav-link">About</a>
+                    <a href="contact.html" class="mobile-nav-link">Contact</a>
+                    <a href="login.html" class="mobile-nav-link">Login</a>
+                    <a href="signup.html" class="mobile-nav-link">Sign Up</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto mb-16 px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Rivets & Nutset Tools</h1>
+        
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex space-x-4">
+                
+                <div class="relative inline-block text-left dropdown">
+                    <button class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500" type="button">
+                        Filter
+                        <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    </button>
+                    <div class="dropdown-menu filter-menu origin-top-left absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu">
+                        <div class="py-1" role="none">
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-filter="all">All Products</a>
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-filter="riveter">Riveters</a>
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-filter="nutset">Nutset Tools</a>
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-filter="accessory">Accessories</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative inline-block text-left dropdown">
+                    <button class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500" type="button">
+                        Sort By
+                        <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    </button>
+                    <div class="dropdown-menu sort-menu origin-top-left absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu">
+                        <div class="py-1" role="none">
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-sort="price-asc">Price: Low to High</a>
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-sort="price-desc">Price: High to Low</a>
+                            <a class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" data-sort="name-asc">Name: A to Z</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            </div>
+    </main>
+
+
+    <footer class="bg-gray-800 text-gray-300">
+        <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <div class="md:flex md:justify-between">
+                <div class="mb-6 md:mb-0">
+                    <span class="text-2xl font-bold text-white">Om Jagdamb Tools</span>
+                    <p class="mt-2 text-gray-400">Quality tools for professionals.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:grid-cols-2">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-100 uppercase tracking-wider">Shop</h3>
+                        <ul class="mt-4 space-y-2">
+                            <li><a href="#" class="text-base text-gray-400 hover:text-white">Riveters</a></li>
+                            <li><a href="#" class="text-base text-gray-400 hover:text-white">Nutsetters</a></li>
+                            <li><a href="#" class="text-base text-gray-400 hover:text-white">Rivets</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-100 uppercase tracking-wider">Support</h3>
+                        <ul class="mt-4 space-y-2">
+                            <li><a href="#" class="text-base text-gray-400 hover:text-white">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-8 text-center">
+                <p class="text-base text-gray-400">&copy; 2025 Om Jagdamb Tools. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="auth-helper.js"></script>
+    <script src="cart-api.js"></script>
+    <script src="cart-ui.js"></script>
+    <script src="app.js" defer></script>
+    <script src="search.js"></script>
+    <script>
+        // Update cart badge (Unchanged)
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cart-badge');
+            if (badge) {
+                badge.textContent = totalItems;
+                badge.classList.toggle('hidden', totalItems === 0);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+        // Mobile menu toggle functionality (Unchanged)
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger-modern');
+            const mobileMenu = document.querySelector('.mobile-menu-modern');
+            
+            if (hamburger && mobileMenu) {
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    mobileMenu.classList.toggle('active');
+                });
+            }
+
+            // Header scroll effect to match homepage (Unchanged)
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('.header-modern');
+                if (window.scrollY > 100) {
+                    header.style.background = 'rgba(255, 255, 255, 0.98)';
+                    header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.15)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // This is the API "data factory" URL we fixed
+            const apiUrl = 'http://127.0.0.1:8000/api/products/';
+            
+            // This is the empty grid we are going to fill
+            const productGrid = document.getElementById('product-grid');
+            
+            // A placeholder image to use if a product has no image
+            const placeholderImage = 'https://placehold.co/300x300/e2e8f0/334155?text=No+Image';
+
+            // Show a loading message
+            productGrid.innerHTML = '<p class="text-gray-700">Loading products...</p>';
+
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Network error: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Clear the "Loading..." message
+                    productGrid.innerHTML = ''; 
+                    
+                    // 'data.results' is the list of products from your API
+                    const products = data.results; 
+
+                    if (products.length === 0) {
+                        productGrid.innerHTML = '<p class="text-gray-700">No products found.</p>';
+                        return;
+                    }
+
+                    // Loop through each product in the list
+                    products.forEach(product => {
+                        
+                        // We use the full URL from the API directly.
+                        const imageUrl = product.primary_image 
+                            ? product.primary_image
+                            : placeholderImage;
+
+                        // Create the HTML for one product card
+                        // This matches your friend's original HTML structure
+                        const productCardHtml = `
+                        <a href="product_detail.html?slug=${product.slug}" class="product-card bg-white rounded-lg shadow-sm overflow-hidden group">
+                            <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200">
+                                <img src="${imageUrl}" alt="${product.name}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-base font-semibold text-gray-800 group-hover:text-blue-600 h-12 overflow-hidden">${product.name}</h3>
+                                <p class="text-gray-600 text-base mt-1">₹${product.price}</p>
+                            </div>
+                        </a>
+                        `;
+                        
+                        // Add the new card's HTML to the grid
+                        productGrid.innerHTML += productCardHtml;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching products:', error);
+                    // Show an error message to the user
+                    productGrid.innerHTML = '<p class="text-red-500">Could not load products. Please try again later.</p>';
+                });
+        });
+    </script>
+
+</body>
+</html>
+</html>
+>>>>>>> 4e40f13e80c5718e27727c9aa1c0f7afcb7e204e
