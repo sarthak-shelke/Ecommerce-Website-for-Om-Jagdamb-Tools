@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist - Om Jagdamb Tools</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .header-modern { position: fixed; top: 0; width: 100%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; }
+        .wishlist-item-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .wishlist-item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .empty-wishlist {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .empty-wishlist-icon {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="header-modern">
+        <nav class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <a href="index.html" class="flex items-center">
+                            <img src="om-jagdamb-tools-services-logo.jpg" alt="Logo" class="h-10 w-auto mr-2">
+                            <span class="text-xl font-bold text-gray-900">Om Jagdamb Tools</span>
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="cart.html" class="relative">
+                            <i class="fas fa-shopping-cart text-gray-700 text-xl"></i>
+                            <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                        </a>
+                        <div id="user-info" class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium">
+                            <i class="fas fa-user mr-1"></i> <span id="user-email">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">
+                    <i class="fas fa-heart text-red-500 mr-2"></i>My Wishlist
+                </h1>
+                <a href="dashboard.html" class="text-blue-600 hover:text-blue-700 font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                </a>
+            </div>
+            
+            <!-- Wishlist Items Container -->
+            <div id="wishlist-container">
+                <!-- Empty state -->
+                <div class="empty-wishlist" id="empty-wishlist" style="display: none;">
+                    <div class="empty-wishlist-icon">
+                        <i class="fas fa-heart-broken"></i>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-gray-700 mb-2">Your wishlist is empty</h2>
+                    <p class="text-gray-500 mb-6">Start adding products you love!</p>
+                    <a href="product_webpage.html" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-shopping-bag mr-2"></i>Browse Products
+                    </a>
+                </div>
+                
+                <!-- Wishlist items grid -->
+                <div id="wishlist-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Items will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Om Jagdamb Tools and Services. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="auth-helper.js"></script>
+    <script>
+        let wishlist = [];
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!requireAuth()) {
+                return;
+            }
+            
+            // Load user info
+            const userEmail = getUserEmail();
+            document.getElementById('user-email').textContent = userEmail || 'User';
+            
+            // Load wishlist
+            loadWishlist();
+            
+            // Update cart badge
+            updateCartBadge();
+        });
+        
+        // Load wishlist from localStorage
+        function loadWishlist() {
+            const wishlistStr = localStorage.getItem('wishlist');
+            if (wishlistStr) {
+                wishlist = JSON.parse(wishlistStr);
+            }
+            
+            renderWishlist();
+        }
+        
+        // Render wishlist items
+        function renderWishlist() {
+            const container = document.getElementById('wishlist-items');
+            const emptyState = document.getElementById('empty-wishlist');
+            
+            if (wishlist.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            container.innerHTML = '';
+            
+            wishlist.forEach((item, index) => {
+                const itemCard = document.createElement('div');
+                itemCard.className = 'bg-white rounded-lg shadow-md p-4 wishlist-item-card';
+                itemCard.innerHTML = `
+                    <div class="relative">
+                        <img src="${item.image || 'https://placehold.co/300x300/e2e8f0/334155?text=Product'}" 
+                             alt="${item.name}" 
+                             class="w-full h-48 object-cover rounded-lg mb-4">
+                        <button onclick="removeFromWishlist(${index})" 
+                                class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-red-50 transition">
+                            <i class="fas fa-times text-red-500"></i>
+                        </button>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">${item.name}</h3>
+                    <p class="text-sm text-gray-500 mb-3">${item.description || ''}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-blue-600">₹${item.price.toFixed(2)}</span>
+                        <button onclick="addToCartFromWishlist(${index})" 
+                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                            <i class="fas fa-shopping-cart mr-1"></i>Add to Cart
+                        </button>
+                    </div>
+                `;
+                container.appendChild(itemCard);
+            });
+        }
+        
+        // Remove from wishlist
+        function removeFromWishlist(index) {
+            if (confirm('Remove this item from your wishlist?')) {
+                wishlist.splice(index, 1);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                renderWishlist();
+                showNotification('Item removed from wishlist', 'info');
+            }
+        }
+        
+        // Add to cart from wishlist
+        function addToCartFromWishlist(index) {
+            const item = wishlist[index];
+            
+            // Get cart
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            
+            // Check if item already in cart
+            const existingIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+            
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push({
+                    ...item,
+                    quantity: 1
+                });
+            }
+            
+            // Save cart
+            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('om_jagdamb_cart', JSON.stringify(cart));
+            
+            // Update cart badge
+            updateCartBadge();
+            
+            // Show notification
+            showNotification(`${item.name} added to cart!`, 'success');
+            
+            // Optionally remove from wishlist
+            if (confirm('Item added to cart! Remove from wishlist?')) {
+                removeFromWishlist(index);
+            }
+        }
+        
+        // Update cart badge
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const badge = document.getElementById('cart-badge');
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                warning: 'bg-yellow-500',
+                info: 'bg-blue-500'
+            };
+            
+            notification.className = `fixed top-20 right-4 z-50 px-6 py-3 rounded-lg shadow-lg text-white ${colors[type] || colors.info}`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'} mr-2"></i>
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

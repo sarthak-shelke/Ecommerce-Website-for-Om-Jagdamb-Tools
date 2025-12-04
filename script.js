@@ -221,21 +221,31 @@ function initializeUserAuth() {
 }
 
 async function checkUserLoginStatus() {
-    const token = localStorage.getItem('authToken');
+    // Check for both Django token and simple login
+    const authToken = localStorage.getItem('authToken');
+    const isUser = localStorage.getItem('isUser');
+    const userEmail = localStorage.getItem('userEmail');
     
-    if (!token) {
+    // If using simple login (isUser flag)
+    if (isUser === 'true' && userEmail) {
+        showUserAccount(userEmail, false);
+        return;
+    }
+    
+    // If using Django API token
+    if (!authToken) {
         showLoginButton();
         return;
     }
 
-    // We have a token. Let's verify it and get the user's info.
+    // We have a Django token. Let's verify it and get the user's info.
     const profileApiUrl = 'http://127.0.0.1:8000/api/auth/profile/';
 
     try {
         const response = await fetch(profileApiUrl, {
             method: 'GET',
             headers: {
-                'Authorization': `Token ${token}`,
+                'Authorization': `Token ${authToken}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -243,26 +253,33 @@ async function checkUserLoginStatus() {
         if (response.ok) {
             const user = await response.json();
             // User is valid and logged in
-            showUserAccount(user.email, user.is_staff); // Pass email and if they are an admin
+            showUserAccount(user.email, user.is_staff);
         } else {
             // Token is invalid or expired
             throw new Error('Invalid token');
         }
     } catch (error) {
-        console.error('Auth check failed:', error);
-        // Something went wrong, log the user out just in case
-        forceLogout();
+        console.error('Auth check failed (using simple login fallback):', error);
+        // Check if simple login exists as fallback
+        if (isUser === 'true' && userEmail) {
+            showUserAccount(userEmail, false);
+        } else {
+            showLoginButton();
+        }
     }
 }
 
 function showUserAccount(email, isAdmin = false) {
     const loginBtn = document.getElementById('login-btn');
     const userAccount = document.getElementById('user-account');
+    const userDetailsBtn = document.getElementById('user-details-btn');
     const userNameEl = document.getElementById('user-name');
     const userAvatar = document.getElementById('user-avatar');
     
     if (loginBtn) loginBtn.style.display = 'none';
     if (userAccount) userAccount.style.display = 'block';
+    // Keep user details button hidden
+    if (userDetailsBtn) userDetailsBtn.style.display = 'none';
     
     if (userNameEl) {
         const displayName = email.split('@')[0];
@@ -278,9 +295,11 @@ function showUserAccount(email, isAdmin = false) {
 function showLoginButton() {
     const loginBtn = document.getElementById('login-btn');
     const userAccount = document.getElementById('user-account');
+    const userDetailsBtn = document.getElementById('user-details-btn');
     
     if (loginBtn) loginBtn.style.display = 'flex';
     if (userAccount) userAccount.style.display = 'none';
+    if (userDetailsBtn) userDetailsBtn.style.display = 'none';
 }
 
 function generateAvatar(email) {
@@ -367,6 +386,7 @@ function addToCartBySlug(slug) {
             existingItem.quantity += 1;
         } else {
             // Add a simplified product object to cart
+            const placeholderImage = 'https://placehold.co/300x300/e2e8f0/334155?text=No+Image';
             cart.push({
                 slug: product.slug,
                 name: product.name,
@@ -390,6 +410,8 @@ function removeFromCart(slug) {
 
 function saveCartToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
+    // mirror to legacy key used by older code
+    try { localStorage.setItem('om_jagdamb_cart', JSON.stringify(cart)); } catch (e) {}
 }
 
 function updateCartUI() {

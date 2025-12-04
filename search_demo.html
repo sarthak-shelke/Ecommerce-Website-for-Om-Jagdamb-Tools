@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Demo - Om Jagdamb Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="search.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 100px;
+            background: #f5f5f5;
+        }
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .demo-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .demo-header h1 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        .demo-search-wrapper {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .instructions {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .instructions h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .instructions ul {
+            list-style-position: inside;
+            color: #666;
+        }
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="om-jagdamb-tools-services-logo.jpg" alt="Om Jagdamb Tools Logo" class="logo-image">
+                    <span>Om Jagdamb Tools</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="product_webpage.html" class="nav-link">Products</a></li>
+                    <li><a href="index.html#services" class="nav-link">Services</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <!-- Search Container -->
+                    <div class="search-container" role="search">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input 
+                                type="text" 
+                                id="product-search-input" 
+                                class="search-input" 
+                                placeholder="Search products..."
+                                autocomplete="off"
+                                aria-label="Search products"
+                            >
+                            <div class="search-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                        <div class="search-results-dropdown" id="search-results" style="display: none;" role="listbox" aria-live="polite">
+                            <!-- Results will be dynamically inserted here -->
+                        </div>
+                    </div>
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🔍 Product Search Demo</h1>
+            <p>Try searching for products using the search bar above or below</p>
+        </div>
+
+        <div class="demo-search-wrapper">
+            <div class="search-container" role="search">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input 
+                        type="text" 
+                        id="product-search-input-demo" 
+                        class="search-input" 
+                        placeholder="Search for rivets, tools, etc..."
+                        autocomplete="off"
+                        aria-label="Search products"
+                        style="width: 100%; font-size: 16px; padding: 12px 45px;"
+                    >
+                    <div class="search-loading" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </div>
+                <div class="search-results-dropdown" id="search-results-demo" style="display: none;" role="listbox" aria-live="polite">
+                    <!-- Results will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h2>How It Works:</h2>
+            <ul>
+                <li>Type at least 2 characters to start searching</li>
+                <li>Search results appear in a dropdown below the search bar</li>
+                <li>Click on any product to be redirected to its detail page</li>
+                <li>The search queries your Django backend API at http://127.0.0.1:8000/api/products/</li>
+                <li>Results are limited to 8 products for better performance</li>
+                <li>Search works across product names and descriptions</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="search.js"></script>
+    <script>
+        // Initialize demo search input
+        document.addEventListener('DOMContentLoaded', function() {
+            const demoInput = document.getElementById('product-search-input-demo');
+            const demoResults = document.getElementById('search-results-demo');
+            
+            if (demoInput && demoResults) {
+                const debouncedSearch = debounce(function(event) {
+                    const query = event.target.value.trim();
+                    
+                    if (query === '' || query.length < 2) {
+                        demoResults.style.display = 'none';
+                        demoResults.innerHTML = '';
+                        return;
+                    }
+                    
+                    searchProductsWithElement(query, demoResults);
+                }, 300);
+                
+                demoInput.addEventListener('input', debouncedSearch);
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(event) {
+                    const searchContainer = demoInput.closest('.search-container');
+                    if (searchContainer && !searchContainer.contains(event.target)) {
+                        demoResults.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

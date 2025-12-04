@@ -22,7 +22,6 @@
         .focus\:border-blue-500:focus { border-color: var(--primary-blue); }
 
         /* --- STYLES ADDED FOR CONSISTENCY --- */
-        /* Modern Header Styles to match homepage */
         .header-modern {
             position: fixed;
             top: 0;
@@ -147,8 +146,21 @@
                     </p>
                     
                     <div class="mt-6">
-                        <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
-                        <input type="number" id="quantity" name="quantity" value="1" min="1" class="mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                        <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+                        <div class="flex items-center space-x-3">
+                            <button type="button" id="decrease-qty" class="w-10 h-10 rounded-lg border-2 border-gray-300 flex items-center justify-center hover:border-blue-600 hover:text-blue-600 transition">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <input type="number" id="quantity" name="quantity" value="1" min="1" max="99" 
+                                   class="w-20 text-center text-lg font-semibold rounded-lg border-2 border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 py-2">
+                            <button type="button" id="increase-qty" class="w-10 h-10 rounded-lg border-2 border-gray-300 flex items-center justify-center hover:border-blue-600 hover:text-blue-600 transition">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">
+                            <i class="fas fa-box mr-1"></i>
+                            <span id="stock-status">In Stock</span>
+                        </p>
                     </div>
                     
                     <button id="add-to-cart-btn" class="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg text-lg transition duration-300">
@@ -194,30 +206,34 @@
                 </div>
             </div>
             <div class="mt-8 border-t border-gray-700 pt-8 text-center">
-                <p class="text-base text-gray-400">&copy; 2025 Om Jagdamb Tools. All rights reserved.</p>
+                <p>&copy; 2025 Om Jagdamb Tools. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <script src="auth-helper.js"></script>
+    <script src="cart-api.js"></script>
+    <script src="cart-ui.js"></script>
     <script>
         // Store the product data globally on this page
         let currentProduct = null;
         const placeholderImage = "https://placehold.co/600x600/e2e8f0/334155?text=Image+Not+Found";
 
-        // --- Cart Functions (copied from old script) ---
+        // --- Cart Functions ---
         function getCart() {
-            const cart = localStorage.getItem('cart');
+            const cart = localStorage.getItem('om_jagdamb_cart') || localStorage.getItem('cart');
             return cart ? JSON.parse(cart) : [];
         }
 
         function saveCart(cart) {
-            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('om_jagdamb_cart', JSON.stringify(cart));
+            window.dispatchEvent(new Event('storage'));
         }
 
         function updateCartBadge() {
             const cart = getCart();
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const badge = document.getElementById('cart-badge'); // This now works
+            const badge = document.getElementById('cart-badge'); 
             if (badge) {
                 badge.textContent = totalItems;
                 badge.classList.toggle('hidden', totalItems === 0);
@@ -240,15 +256,18 @@
 
         function addToCart(productData, quantity) {
             const cart = getCart();
-            const existingItem = cart.find(item => item.slug === productData.slug);
+            const existingItemIndex = cart.findIndex(item => item.slug === productData.slug);
             
-            if (existingItem) {
-                existingItem.quantity += quantity;
+            if (existingItemIndex !== -1) {
+                cart[existingItemIndex].quantity += quantity;
             } else {
+                // Ensure price is a float and use slug for identification
+                const placeholderImage = 'https://placehold.co/300x300/e2e8f0/334155?text=No+Image';
                 cart.push({
+                    id: productData.slug, // Use slug as unique identifier
                     slug: productData.slug,
                     name: productData.name,
-                    price: productData.price,
+                    price: parseFloat(productData.price),
                     image: productData.primary_image || placeholderImage,
                     quantity: quantity
                 });
@@ -259,23 +278,56 @@
             updateCartBadge();
         }
 
+        // --- Quantity Controls ---
+        function setupQuantityControls() {
+            const quantityInput = document.getElementById('quantity');
+            const decreaseBtn = document.getElementById('decrease-qty');
+            const increaseBtn = document.getElementById('increase-qty');
+            
+            decreaseBtn.addEventListener('click', function() {
+                const currentValue = parseInt(quantityInput.value) || 1;
+                if (currentValue > 1) {
+                    quantityInput.value = currentValue - 1;
+                }
+            });
+            
+            increaseBtn.addEventListener('click', function() {
+                const currentValue = parseInt(quantityInput.value) || 1;
+                const maxValue = parseInt(quantityInput.max) || 99;
+                if (currentValue < maxValue) {
+                    quantityInput.value = currentValue + 1;
+                }
+            });
+            
+            // Validate input
+            quantityInput.addEventListener('input', function() {
+                let value = parseInt(this.value) || 1;
+                const min = parseInt(this.min) || 1;
+                const max = parseInt(this.max) || 99;
+                
+                if (value < min) value = min;
+                if (value > max) value = max;
+                
+                this.value = value;
+            });
+        }
+
         // --- Main Page Load Logic ---
         document.addEventListener('DOMContentLoaded', function() {
-            // Get the 'slug' from the URL (e.g., "?slug=rivet-gun")
             const params = new URLSearchParams(window.location.search);
             const slug = params.get('slug');
 
             if (!slug) {
-                document.getElementById('product-name').textContent = "Product not found.";
-                document.getElementById('product-description').textContent = "No product was specified in the URL.";
+                document.getElementById('product-name').textContent = "Product Not Found (Missing Slug)";
                 return;
             }
 
-            // This is the API endpoint for a single product
             const apiUrl = `http://127.0.0.1:8000/api/products/${slug}/`;
 
-            // Find elements to update
             const nameEl = document.getElementById('product-name');
+            
+            // Setup quantity controls
+            setupQuantityControls();
             const priceEl = document.getElementById('product-price');
             const imageEl = document.getElementById('product-image');
             const descEl = document.getElementById('product-description');
@@ -292,13 +344,13 @@
                     return response.json();
                 })
                 .then(product => {
-                    // Save the fetched product
                     currentProduct = product; 
+                    const unitPrice = parseFloat(product.price);
 
                     // Update the page content
                     nameEl.textContent = product.name;
                     document.title = product.name + " - Om Jagdamb Tools";
-                    priceEl.textContent = `₹${product.price}`;
+                    priceEl.textContent = `₹${unitPrice.toFixed(2)}`;
                     descEl.textContent = product.description;
                     
                     // Set image
@@ -307,12 +359,28 @@
 
                     // Update specifications
                     if (product.specifications && product.specifications.length > 0) {
-                        specsEl.innerHTML = ''; // Clear "Loading..."
+                        specsEl.innerHTML = ''; 
                         product.specifications.forEach(spec => {
                             specsEl.innerHTML += `<li><strong>${spec.name}:</strong> ${spec.value}</li>`;
                         });
                     } else {
                         specsEl.innerHTML = '<li>No specifications available.</li>';
+                    }
+                    
+                    // Update stock status
+                    const stockStatus = document.getElementById('stock-status');
+                    const stock = product.stock_quantity || product.stock || 0;
+                    if (stock > 10) {
+                        stockStatus.innerHTML = '<span class="text-green-600 font-semibold">In Stock</span>';
+                        quantityInput.max = Math.min(stock, 99);
+                    } else if (stock > 0) {
+                        stockStatus.innerHTML = `<span class="text-yellow-600 font-semibold">Only ${stock} left!</span>`;
+                        quantityInput.max = stock;
+                    } else {
+                        stockStatus.innerHTML = '<span class="text-red-600 font-semibold">Out of Stock</span>';
+                        addToCartBtn.disabled = true;
+                        addToCartBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                        addToCartBtn.textContent = 'Out of Stock';
                     }
 
                 })
@@ -324,12 +392,73 @@
                 });
 
             // Add to cart button functionality
-            addToCartBtn.addEventListener('click', function() {
-                if (currentProduct) {
-                    const quantity = parseInt(quantityInput.value) || 1;
-                    addToCart(currentProduct, quantity);
-                } else {
+            addToCartBtn.addEventListener('click', async function() {
+                if (!currentProduct) {
                     alert('Product data is still loading, please wait.');
+                    return;
+                }
+                
+                const quantity = parseInt(quantityInput.value) || 1;
+                
+                // Disable button during operation
+                addToCartBtn.disabled = true;
+                addToCartBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+                
+                try {
+                    // Normalize product data for cart
+                    const productForCart = {
+                        id: currentProduct.id,
+                        slug: currentProduct.slug,
+                        name: currentProduct.name,
+                        price: parseFloat(currentProduct.price),
+                        image: currentProduct.primary_image || currentProduct.image || placeholderImage,
+                        description: currentProduct.description || ''
+                    };
+                    
+                    console.log('=== ADD TO CART DEBUG ===');
+                    console.log('Product:', productForCart);
+                    console.log('Quantity:', quantity);
+                    console.log('cartAPI available?', typeof cartAPI !== 'undefined');
+                    
+                    // Use cartAPI if available, otherwise fallback
+                    if (typeof cartAPI !== 'undefined') {
+                        console.log('Using cartAPI.addToCart');
+                        const result = await cartAPI.addToCart(productForCart, quantity);
+                        console.log('cartAPI result:', result);
+                        console.log('Cart after add:', cartAPI.cart);
+                        
+                        // Verify localStorage
+                        const stored = localStorage.getItem('cart');
+                        console.log('localStorage cart:', stored);
+                    } else {
+                        console.log('Using fallback addToCart');
+                        addToCart(productForCart, quantity);
+                    }
+                    
+                    // Show success
+                    addToCartBtn.innerHTML = '<i class="fas fa-check-circle"></i> Added to Cart!';
+                    addToCartBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    addToCartBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                    
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        addToCartBtn.innerHTML = 'Add to Cart';
+                        addToCartBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                        addToCartBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                        addToCartBtn.disabled = false;
+                        quantityInput.value = 1;
+                    }, 2000);
+                    
+                } catch (error) {
+                    console.error('Error adding to cart:', error);
+                    addToCartBtn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
+                    addToCartBtn.classList.add('bg-red-600');
+                    
+                    setTimeout(() => {
+                        addToCartBtn.innerHTML = 'Add to Cart';
+                        addToCartBtn.classList.remove('bg-red-600');
+                        addToCartBtn.disabled = false;
+                    }, 2000);
                 }
             });
 
@@ -337,8 +466,5 @@
             updateCartBadge();
         });
     </script>
-
 </body>
 </html>
-</html>
->>>>>>> 4e40f13e80c5718e27727c9aa1c0f7afcb7e204e

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .success { background: #4CAF50; color: white; }
+        .info { background: #2196F3; color: white; }
+        .warning { background: #ff9800; color: white; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Cart API Test Page</h1>
+    
+    <div>
+        <h2>Actions:</h2>
+        <button class="success" onclick="testAddToCart()">Add Test Product</button>
+        <button class="info" onclick="viewCart()">View Cart</button>
+        <button class="warning" onclick="clearCart()">Clear Cart</button>
+        <button onclick="checkLocalStorage()">Check localStorage</button>
+    </div>
+    
+    <div id="output" style="margin-top: 20px;">
+        <h3>Output:</h3>
+        <pre id="result">Click a button to test...</pre>
+    </div>
+
+    <script src="auth-helper.js"></script>
+    <script src="cart-api.js"></script>
+    <script src="cart-ui.js"></script>
+    
+    <script>
+        function log(message) {
+            const result = document.getElementById('result');
+            result.textContent += '\n' + message;
+            console.log(message);
+        }
+        
+        function testAddToCart() {
+            document.getElementById('result').textContent = '';
+            log('=== Testing Add to Cart ===');
+            
+            const testProduct = {
+                id: 999,
+                slug: 'test-product',
+                name: 'Test Product',
+                price: 99.99,
+                image: 'https://placehold.co/150x150',
+                description: 'This is a test product'
+            };
+            
+            log('Product: ' + JSON.stringify(testProduct, null, 2));
+            
+            cartAPI.addToCart(testProduct, 2).then(result => {
+                log('Result: ' + JSON.stringify(result, null, 2));
+                log('Cart now has: ' + cartAPI.cart.length + ' items');
+                log('Cart contents: ' + JSON.stringify(cartAPI.cart, null, 2));
+            });
+        }
+        
+        function viewCart() {
+            document.getElementById('result').textContent = '';
+            log('=== Current Cart ===');
+            log('Cart items: ' + cartAPI.cart.length);
+            log('Cart contents: ' + JSON.stringify(cartAPI.cart, null, 2));
+        }
+        
+        function clearCart() {
+            document.getElementById('result').textContent = '';
+            log('=== Clearing Cart ===');
+            cartAPI.clearCart().then(() => {
+                log('Cart cleared');
+                log('Cart items: ' + cartAPI.cart.length);
+            });
+        }
+        
+        function checkLocalStorage() {
+            document.getElementById('result').textContent = '';
+            log('=== localStorage Check ===');
+            log('cart: ' + localStorage.getItem('cart'));
+            log('om_jagdamb_cart: ' + localStorage.getItem('om_jagdamb_cart'));
+        }
+        
+        // Log on page load
+        window.addEventListener('load', () => {
+            log('Page loaded');
+            log('cartAPI available: ' + (typeof cartAPI !== 'undefined'));
+            log('Initial cart items: ' + cartAPI.cart.length);
+        });
+    </script>
+</body>
+</html>

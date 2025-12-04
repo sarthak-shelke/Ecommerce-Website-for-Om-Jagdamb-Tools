@@ -1,14 +1,11 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from . import views
 
-router = DefaultRouter()
-router.register(r'orders', views.OrderViewSet)
-router.register(r'coupons', views.CouponViewSet)
-
 urlpatterns = [
-    path('', include(router.urls)),
-    path('checkout/', views.CheckoutView.as_view(), name='checkout'),
-    path('validate-coupon/', views.ValidateCouponView.as_view(), name='validate_coupon'),
-    path('order-history/', views.OrderHistoryView.as_view(), name='order_history'),
+    path('create/', views.CreateOrderView.as_view(), name='create_order'),
+    path('', views.OrderListView.as_view(), name='order_list'),
+    path('<uuid:order_id>/', views.OrderDetailView.as_view(), name='order_detail'),
+    path('cancel/', views.CancelOrderView.as_view(), name='cancel_order'),
+    path('<uuid:order_id>/history/', views.OrderStatusHistoryView.as_view(), name='order_history'),
+    path('coupon/validate/', views.ValidateCouponView.as_view(), name='validate_coupon'),
 ]

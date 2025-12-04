@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile - Om Jagdamb Tools</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="search.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -28,14 +28,16 @@
             border-radius: 15px;
             margin-bottom: 2rem;
             text-align: center;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
         }
         
         .profile-avatar {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            border: 4px solid white;
+            border: 5px solid white;
             margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         
         .profile-name {
@@ -49,9 +51,18 @@
             font-size: 1.1rem;
         }
         
+        .profile-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
         .profile-content {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 300px 1fr;
             gap: 2rem;
         }
         
@@ -98,6 +109,11 @@
             text-decoration: none;
         }
         
+        .sidebar-menu a i {
+            width: 20px;
+            text-align: center;
+        }
+        
         .section-title {
             font-size: 1.5rem;
             font-weight: 600;
@@ -126,12 +142,18 @@
             border-radius: 8px;
             font-size: 1rem;
             transition: border-color 0.3s ease;
+            font-family: 'Poppins', sans-serif;
         }
         
         .form-input:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-input:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
         }
         
         .btn {
@@ -144,6 +166,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Poppins', sans-serif;
         }
         
         .btn-primary {
@@ -154,11 +177,21 @@
         .btn-primary:hover {
             background: #5a6fd8;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
         
         .btn-secondary {
             background: #6c757d;
             color: white;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
         }
         
         .stats-grid {
@@ -174,6 +207,7 @@
             padding: 1.5rem;
             border-radius: 12px;
             text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
         }
         
         .stat-number {
@@ -186,536 +220,71 @@
             opacity: 0.9;
         }
         
-        @media (max-width: 768px) {
-            .profile-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .profile-container {
-                padding: 1rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="logo">
-                    <img src="om-jagdamb-tools-services-logo.jpg" alt="Om Jagdamb Tools Logo" class="logo-image">
-                    <span>Om Jagdamb Tools</span>
-                </div>
-                <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-link">Home</a></li>
-                    <li><a href="product_webpage.html" class="nav-link">Products</a></li>
-                    <li><a href="#services" class="nav-link">Services</a></li>
-                    <li><a href="about.html" class="nav-link">About</a></li>
-                    <li><a href="contact.html" class="nav-link">Contact</a></li>
-                </ul>
-                <div class="nav-icons">
-                    <div class="search-icon"><i class="fas fa-search"></i></div>
-                    <div class="cart-icon">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count">0</span>
-                    </div>
-                    <div id="user-auth-section">
-                        <!-- User account will be loaded here -->
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <div class="profile-container">
-        <!-- Profile Header -->
-        <div class="profile-header">
-            <img src="" alt="Profile Avatar" class="profile-avatar" id="profile-avatar">
-            <h1 class="profile-name" id="profile-name">User Name</h1>
-            <p class="profile-email" id="profile-email">user@email.com</p>
-        </div>
-
-        <div class="profile-content">
-            <!-- Sidebar -->
-            <div class="profile-sidebar">
-                <ul class="sidebar-menu">
-                    <li><a href="#" class="active" onclick="showSection('overview')">
-                        <i class="fas fa-tachometer-alt"></i> Overview
-                    </a></li>
-                    <li><a href="#" onclick="showSection('personal-info')">
-                        <i class="fas fa-user"></i> Personal Info
-                    </a></li>
-                    <li><a href="#" onclick="showSection('orders')">
-                        <i class="fas fa-shopping-bag"></i> My Orders
-                    </a></li>
-                    <li><a href="#" onclick="showSection('wishlist')">
-                        <i class="fas fa-heart"></i> Wishlist
-                    </a></li>
-                    <li><a href="#" onclick="showSection('settings')">
-                        <i class="fas fa-cog"></i> Settings
-                    </a></li>
-                </ul>
-            </div>
-
-            <!-- Main Content -->
-            <div class="profile-main">
-                <!-- Overview Section -->
-                <div id="overview-section" class="profile-section">
-                    <h2 class="section-title">
-                        <i class="fas fa-tachometer-alt"></i> Account Overview
-                    </h2>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number" id="total-orders">0</div>
-                            <div class="stat-label">Total Orders</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="wishlist-items">0</div>
-                            <div class="stat-label">Wishlist Items</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="total-spent">₹0</div>
-                            <div class="stat-label">Total Spent</div>
-                        </div>
-                    </div>
-                    
-                    <h3>Recent Activity</h3>
-                    <div id="recent-activity">
-                        <p style="color: #666; text-align: center; padding: 2rem;">No recent activity</p>
-                    </div>
-                </div>
-
-                <!-- Personal Info Section -->
-                <div id="personal-info-section" class="profile-section" style="display: none;">
-                    <h2 class="section-title">
-                        <i class="fas fa-user"></i> Personal Information
-                    </h2>
-                    
-                    <form id="profile-form">
-                        <div class="form-group">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" class="form-input" id="full-name" placeholder="Enter your full name">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" class="form-input" id="email" readonly>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Phone Number</label>
-                            <input type="tel" class="form-input" id="phone" placeholder="Enter your phone number">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Address</label>
-                            <textarea class="form-input" id="address" rows="3" placeholder="Enter your address"></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Save Changes
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Orders Section -->
-                <div id="orders-section" class="profile-section" style="display: none;">
-                    <h2 class="section-title">
-                        <i class="fas fa-shopping-bag"></i> My Orders
-                    </h2>
-                    
-                    <div id="orders-list">
-                        <p style="color: #666; text-align: center; padding: 2rem;">No orders found</p>
-                    </div>
-                </div>
-
-                <!-- Wishlist Section -->
-                <div id="wishlist-section" class="profile-section" style="display: none;">
-                    <h2 class="section-title">
-                        <i class="fas fa-heart"></i> My Wishlist
-                    </h2>
-                    
-                    <div id="wishlist-items-list">
-                        <p style="color: #666; text-align: center; padding: 2rem;">No items in wishlist</p>
-                    </div>
-                </div>
-
-                <!-- Settings Section -->
-                <div id="settings-section" class="profile-section" style="display: none;">
-                    <h2 class="section-title">
-                        <i class="fas fa-cog"></i> Account Settings
-                    </h2>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Email Notifications</label>
-                        <label style="display: flex; align-items: center; gap: 0.5rem;">
-                            <input type="checkbox" id="email-notifications" checked>
-                            Receive email notifications about orders and promotions
-                        </label>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Language</label>
-                        <select class="form-input" id="language">
-                            <option value="en">English</option>
-                            <option value="hi">Hindi</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Currency</label>
-                        <select class="form-input" id="currency">
-                            <option value="INR">Indian Rupee (₹)</option>
-                            <option value="USD">US Dollar ($)</option>
-                        </select>
-                    </div>
-                    
-                    <button type="button" class="btn btn-primary" onclick="saveSettings()">
-                        <i class="fas fa-save"></i> Save Settings
-                    </button>
-                    
-                    <hr style="margin: 2rem 0;">
-                    
-                    <h3 style="color: #dc3545;">Danger Zone</h3>
-                    <button type="button" class="btn btn-secondary" onclick="deleteAccount()" style="background: #dc3545;">
-                        <i class="fas fa-trash"></i> Delete Account
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-    <script>
-        // Profile page specific JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is logged in
-            const isUser = localStorage.getItem('isUser');
-            const userEmail = localStorage.getItem('userEmail');
-            
-            if (!isUser || !userEmail) {
-                alert('Please login to access your profile');
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            // Initialize profile data
-            initializeProfile();
-            loadUserData();
-        });
-
-        function initializeProfile() {
-            const userEmail = localStorage.getItem('userEmail');
-            const displayName = userEmail.split('@')[0];
-            
-            // Set profile header
-            document.getElementById('profile-name').textContent = displayName;
-            document.getElementById('profile-email').textContent = userEmail;
-            
-            // Set avatar
-            const avatarUrl = generateAvatar(userEmail);
-            document.getElementById('profile-avatar').src = avatarUrl;
-            
-            // Set form data
-            document.getElementById('email').value = userEmail;
-            document.getElementById('full-name').value = localStorage.getItem('userFullName') || displayName;
-            document.getElementById('phone').value = localStorage.getItem('userPhone') || '';
-            document.getElementById('address').value = localStorage.getItem('userAddress') || '';
-        }
-
-        function loadUserData() {
-            // Load user statistics (simulated)
-            document.getElementById('total-orders').textContent = localStorage.getItem('userTotalOrders') || '0';
-            document.getElementById('wishlist-items').textContent = localStorage.getItem('userWishlistCount') || '0';
-            document.getElementById('total-spent').textContent = '₹' + (localStorage.getItem('userTotalSpent') || '0');
-        }
-
-        function showSection(sectionName) {
-            // Hide all sections
-            document.querySelectorAll('.profile-section').forEach(section => {
-                section.style.display = 'none';
-            });
-            
-            // Remove active class from all menu items
-            document.querySelectorAll('.sidebar-menu a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            // Show selected section
-            document.getElementById(sectionName + '-section').style.display = 'block';
-            
-            // Add active class to clicked menu item
-            event.target.classList.add('active');
-        }
-
-        // Form submission
-        document.getElementById('profile-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const fullName = document.getElementById('full-name').value;
-            const phone = document.getElementById('phone').value;
-            const address = document.getElementById('address').value;
-            
-            // Save to localStorage (in production, send to server)
-            localStorage.setItem('userFullName', fullName);
-            localStorage.setItem('userPhone', phone);
-            localStorage.setItem('userAddress', address);
-            
-            showNotification('Profile updated successfully!', 'success');
-        });
-
-        function saveSettings() {
-            const emailNotifications = document.getElementById('email-notifications').checked;
-            const language = document.getElementById('language').value;
-            const currency = document.getElementById('currency').value;
-            
-            localStorage.setItem('userEmailNotifications', emailNotifications);
-            localStorage.setItem('userLanguage', language);
-            localStorage.setItem('userCurrency', currency);
-            
-            showNotification('Settings saved successfully!', 'success');
-        }
-
-        function deleteAccount() {
-            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                // Clear all user data
-                Object.keys(localStorage).forEach(key => {
-                    if (key.startsWith('user') || key.startsWith('isUser')) {
-                        localStorage.removeItem(key);
-                    }
-                });
-                
-                alert('Account deleted successfully');
-                window.location.href = 'index.html';
-            }
-        }
-
-        function generateAvatar(email) {
-            const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe', '#43e97b', '#38f9d7'];
-            const initial = email.charAt(0).toUpperCase();
-            const colorIndex = email.charCodeAt(0) % colors.length;
-            const color = colors[colorIndex];
-            
-            return `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="${encodeURIComponent(color)}" rx="50"/><text x="50" y="65" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="40" font-weight="bold">${initial}</text></svg>`;
-        }
-
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'success' ? '#28a745' : '#17a2b8'};
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: 8px;
-                z-index: 10000;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            `;
-            notification.textContent = message;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => notification.remove(), 3000);
-        }
-    </script>
-</body>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - Om Jagdamb Tools</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
+        .info-card {
             background: #f8f9fa;
-            font-family: 'Poppins', sans-serif;
-            padding-top: 80px;
-        }
-        
-        .profile-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .profile-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        
-        .profile-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 4px solid white;
+            padding: 1.5rem;
+            border-radius: 12px;
             margin-bottom: 1rem;
         }
         
-        .profile-name {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .profile-email {
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-        
-        .profile-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 2rem;
-        }
-        
-        .profile-sidebar {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            height: fit-content;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .profile-main {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .sidebar-menu li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .sidebar-menu a {
+        .info-row {
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            color: #333;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e1e5e9;
         }
         
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: #667eea;
-            color: white;
-            text-decoration: none;
+        .info-row:last-child {
+            border-bottom: none;
         }
         
-        .section-title {
-            font-size: 1.5rem;
+        .info-label {
             font-weight: 600;
-            color: #333;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            color: #666;
         }
         
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+        .info-value {
             color: #333;
         }
         
-        .form-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #5a6fd8;
-            transform: translateY(-2px);
-        }
-        
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 12px;
+        .loading-spinner {
             text-align: center;
+            padding: 3rem;
+            color: #667eea;
         }
         
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+        .loading-spinner i {
+            font-size: 3rem;
+            animation: spin 1s linear infinite;
         }
         
-        .stat-label {
-            opacity: 0.9;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .profile-content {
                 grid-template-columns: 1fr;
             }
-            
+        }
+        
+        @media (max-width: 768px) {
             .profile-container {
                 padding: 1rem;
+            }
+            
+            .profile-header {
+                padding: 1.5rem;
+            }
+            
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .profile-name {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -737,13 +306,35 @@
                     <li><a href="contact.html" class="nav-link">Contact</a></li>
                 </ul>
                 <div class="nav-icons">
-                    <div class="search-icon"><i class="fas fa-search"></i></div>
+                    <div class="search-container" role="search">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input 
+                                type="text" 
+                                id="product-search-input" 
+                                class="search-input" 
+                                placeholder="Search products..."
+                                autocomplete="off"
+                                aria-label="Search products"
+                            >
+                            <div class="search-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                        <div class="search-results-dropdown" id="search-results" style="display: none;" role="listbox" aria-live="polite">
+                        </div>
+                    </div>
                     <div class="cart-icon">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="cart-count">0</span>
                     </div>
                     <div id="user-auth-section">
                         <!-- User account will be loaded here -->
+                    </div>
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
                 </div>
             </div>
@@ -754,27 +345,28 @@
         <!-- Profile Header -->
         <div class="profile-header">
             <img src="" alt="Profile Avatar" class="profile-avatar" id="profile-avatar">
-            <h1 class="profile-name" id="profile-name">User Name</h1>
-            <p class="profile-email" id="profile-email">user@email.com</p>
+            <h1 class="profile-name" id="profile-name">Loading...</h1>
+            <p class="profile-email" id="profile-email">Loading...</p>
+            <span class="profile-badge" id="profile-badge">User</span>
         </div>
 
         <div class="profile-content">
             <!-- Sidebar -->
             <div class="profile-sidebar">
                 <ul class="sidebar-menu">
-                    <li><a href="#" class="active" onclick="showSection('overview')">
+                    <li><a href="#" class="active" onclick="showSection(event, 'overview')">
                         <i class="fas fa-tachometer-alt"></i> Overview
                     </a></li>
-                    <li><a href="#" onclick="showSection('personal-info')">
+                    <li><a href="#" onclick="showSection(event, 'personal-info')">
                         <i class="fas fa-user"></i> Personal Info
                     </a></li>
-                    <li><a href="#" onclick="showSection('orders')">
+                    <li><a href="#" onclick="showSection(event, 'account-details')">
+                        <i class="fas fa-id-card"></i> Account Details
+                    </a></li>
+                    <li><a href="#" onclick="showSection(event, 'orders')">
                         <i class="fas fa-shopping-bag"></i> My Orders
                     </a></li>
-                    <li><a href="#" onclick="showSection('wishlist')">
-                        <i class="fas fa-heart"></i> Wishlist
-                    </a></li>
-                    <li><a href="#" onclick="showSection('settings')">
+                    <li><a href="#" onclick="showSection(event, 'settings')">
                         <i class="fas fa-cog"></i> Settings
                     </a></li>
                 </ul>
@@ -794,8 +386,8 @@
                             <div class="stat-label">Total Orders</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number" id="wishlist-items">0</div>
-                            <div class="stat-label">Wishlist Items</div>
+                            <div class="stat-number" id="cart-items">0</div>
+                            <div class="stat-label">Cart Items</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-number" id="total-spent">₹0</div>
@@ -823,7 +415,7 @@
                         
                         <div class="form-group">
                             <label class="form-label">Email Address</label>
-                            <input type="email" class="form-input" id="email" readonly>
+                            <input type="email" class="form-input" id="email" readonly disabled>
                         </div>
                         
                         <div class="form-group">
@@ -842,6 +434,40 @@
                     </form>
                 </div>
 
+                <!-- Account Details Section -->
+                <div id="account-details-section" class="profile-section" style="display: none;">
+                    <h2 class="section-title">
+                        <i class="fas fa-id-card"></i> Account Details
+                    </h2>
+                    
+                    <div class="info-card">
+                        <div class="info-row">
+                            <span class="info-label">User ID:</span>
+                            <span class="info-value" id="user-id">Loading...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value" id="account-email">Loading...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Account Type:</span>
+                            <span class="info-value" id="account-type">Loading...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Member Since:</span>
+                            <span class="info-value" id="member-since">Loading...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Last Login:</span>
+                            <span class="info-value" id="last-login">Loading...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Account Status:</span>
+                            <span class="info-value" style="color: #28a745; font-weight: 600;">Active</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Orders Section -->
                 <div id="orders-section" class="profile-section" style="display: none;">
                     <h2 class="section-title">
@@ -853,17 +479,6 @@
                     </div>
                 </div>
 
-                <!-- Wishlist Section -->
-                <div id="wishlist-section" class="profile-section" style="display: none;">
-                    <h2 class="section-title">
-                        <i class="fas fa-heart"></i> My Wishlist
-                    </h2>
-                    
-                    <div id="wishlist-items-list">
-                        <p style="color: #666; text-align: center; padding: 2rem;">No items in wishlist</p>
-                    </div>
-                </div>
-
                 <!-- Settings Section -->
                 <div id="settings-section" class="profile-section" style="display: none;">
                     <h2 class="section-title">
@@ -872,7 +487,7 @@
                     
                     <div class="form-group">
                         <label class="form-label">Email Notifications</label>
-                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                             <input type="checkbox" id="email-notifications" checked>
                             Receive email notifications about orders and promotions
                         </label>
@@ -900,8 +515,9 @@
                     
                     <hr style="margin: 2rem 0;">
                     
-                    <h3 style="color: #dc3545;">Danger Zone</h3>
-                    <button type="button" class="btn btn-secondary" onclick="deleteAccount()" style="background: #dc3545;">
+                    <h3 style="color: #dc3545; margin-bottom: 1rem;">Danger Zone</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">Once you delete your account, there is no going back. Please be certain.</p>
+                    <button type="button" class="btn btn-danger" onclick="deleteAccount()">
                         <i class="fas fa-trash"></i> Delete Account
                     </button>
                 </div>
@@ -910,51 +526,160 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="search.js"></script>
+    <script src="auth-helper.js"></script>
     <script>
         // Profile page specific JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is logged in
-            const isUser = localStorage.getItem('isUser');
-            const userEmail = localStorage.getItem('userEmail');
-            
-            if (!isUser || !userEmail) {
-                alert('Please login to access your profile');
-                window.location.href = 'login.html';
-                return;
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check if user is logged in using consistent auth check
+            if (!requireAuth()) {
+                return; // requireAuth handles redirect
             }
             
-            // Initialize profile data
-            initializeProfile();
-            loadUserData();
+            // Load user profile from API
+            await loadUserProfile();
+            loadUserStats();
+            
+            // Check if there's a hash in URL (e.g., #settings)
+            if (window.location.hash) {
+                const sectionName = window.location.hash.substring(1); // Remove #
+                const sectionElement = document.getElementById(sectionName + '-section');
+                if (sectionElement) {
+                    // Hide all sections
+                    document.querySelectorAll('.profile-section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    // Show the requested section
+                    sectionElement.style.display = 'block';
+                    
+                    // Update active menu item
+                    document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(sectionName)) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            }
         });
 
-        function initializeProfile() {
-            const userEmail = localStorage.getItem('userEmail');
-            const displayName = userEmail.split('@')[0];
+        async function loadUserProfile() {
+            const token = localStorage.getItem('token');
+            const profileApiUrl = 'http://127.0.0.1:8000/api/auth/profile/';
             
+            // Try to load from backend API if token exists
+            if (token) {
+                try {
+                    const response = await fetch(profileApiUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const userData = await response.json();
+                        displayUserProfile(userData);
+                        return;
+                    }
+                } catch (error) {
+                    console.log('API not available, using localStorage data');
+                }
+            }
+            
+            // Fallback to localStorage data
+            const userEmail = getUserEmail();
+            if (userEmail) {
+                const userData = {
+                    email: userEmail,
+                    first_name: '',
+                    last_name: '',
+                    is_staff: localStorage.getItem('isAdmin') === 'true',
+                    is_superuser: localStorage.getItem('isAdmin') === 'true',
+                    date_joined: localStorage.getItem('userLoginTime') || new Date().toISOString(),
+                    last_login: localStorage.getItem('userLoginTime') || new Date().toISOString()
+                };
+                displayUserProfile(userData);
+            } else {
+                showNotification('Failed to load profile data', 'error');
+            }
+        }
+
+        function displayUserProfile(userData) {
             // Set profile header
+            const displayName = userData.first_name && userData.last_name 
+                ? `${userData.first_name} ${userData.last_name}`
+                : userData.email.split('@')[0];
+            
             document.getElementById('profile-name').textContent = displayName;
-            document.getElementById('profile-email').textContent = userEmail;
+            document.getElementById('profile-email').textContent = userData.email;
+            
+            // Set badge
+            const badge = userData.is_staff || userData.is_superuser ? 'Admin' : 'User';
+            document.getElementById('profile-badge').textContent = badge;
             
             // Set avatar
-            const avatarUrl = generateAvatar(userEmail);
+            const avatarUrl = generateAvatar(userData.email);
             document.getElementById('profile-avatar').src = avatarUrl;
             
             // Set form data
-            document.getElementById('email').value = userEmail;
-            document.getElementById('full-name').value = localStorage.getItem('userFullName') || displayName;
-            document.getElementById('phone').value = localStorage.getItem('userPhone') || '';
-            document.getElementById('address').value = localStorage.getItem('userAddress') || '';
+            document.getElementById('email').value = userData.email;
+            document.getElementById('full-name').value = displayName;
+            document.getElementById('phone').value = userData.phone || '';
+            document.getElementById('address').value = userData.address || '';
+            
+            // Set account details
+            document.getElementById('user-id').textContent = userData.id || 'N/A';
+            document.getElementById('account-email').textContent = userData.email;
+            document.getElementById('account-type').textContent = badge;
+            document.getElementById('member-since').textContent = userData.date_joined 
+                ? new Date(userData.date_joined).toLocaleDateString() 
+                : 'N/A';
+            document.getElementById('last-login').textContent = userData.last_login 
+                ? new Date(userData.last_login).toLocaleString() 
+                : 'Just now';
         }
 
-        function loadUserData() {
-            // Load user statistics (simulated)
-            document.getElementById('total-orders').textContent = localStorage.getItem('userTotalOrders') || '0';
-            document.getElementById('wishlist-items').textContent = localStorage.getItem('userWishlistCount') || '0';
-            document.getElementById('total-spent').textContent = '₹' + (localStorage.getItem('userTotalSpent') || '0');
+        function loadUserStats() {
+            // Load cart items
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            document.getElementById('cart-items').textContent = cart.length;
+            
+            // Calculate total spent from cart
+            const totalSpent = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
+            document.getElementById('total-spent').textContent = '₹' + totalSpent.toFixed(2);
+            
+            // Orders would come from API in production
+            document.getElementById('total-orders').textContent = '0';
+            
+            // Load saved settings
+            loadSavedSettings();
+        }
+        
+        function loadSavedSettings() {
+            // Load email notifications setting
+            const emailNotifications = localStorage.getItem('userEmailNotifications');
+            if (emailNotifications !== null) {
+                document.getElementById('email-notifications').checked = emailNotifications === 'true';
+            }
+            
+            // Load language setting
+            const language = localStorage.getItem('userLanguage');
+            if (language) {
+                document.getElementById('language').value = language;
+            }
+            
+            // Load currency setting
+            const currency = localStorage.getItem('userCurrency');
+            if (currency) {
+                document.getElementById('currency').value = currency;
+            }
         }
 
-        function showSection(sectionName) {
+        function showSection(event, sectionName) {
+            event.preventDefault();
+            
             // Hide all sections
             document.querySelectorAll('.profile-section').forEach(section => {
                 section.style.display = 'none';
@@ -969,18 +694,19 @@
             document.getElementById(sectionName + '-section').style.display = 'block';
             
             // Add active class to clicked menu item
-            event.target.classList.add('active');
+            event.currentTarget.classList.add('active');
         }
 
         // Form submission
-        document.getElementById('profile-form').addEventListener('submit', function(e) {
+        document.getElementById('profile-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const fullName = document.getElementById('full-name').value;
             const phone = document.getElementById('phone').value;
             const address = document.getElementById('address').value;
             
-            // Save to localStorage (in production, send to server)
+            // In production, send to API
+            // For now, save to localStorage
             localStorage.setItem('userFullName', fullName);
             localStorage.setItem('userPhone', phone);
             localStorage.setItem('userAddress', address);
@@ -1002,15 +728,18 @@
 
         function deleteAccount() {
             if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                // Clear all user data
-                Object.keys(localStorage).forEach(key => {
-                    if (key.startsWith('user') || key.startsWith('isUser')) {
-                        localStorage.removeItem(key);
-                    }
-                });
-                
-                alert('Account deleted successfully');
-                window.location.href = 'index.html';
+                if (confirm('This will permanently delete all your data. Are you absolutely sure?')) {
+                    // Clear all user data
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('loginTime');
+                    
+                    showNotification('Account deleted successfully', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                }
             }
         }
 
@@ -1020,29 +749,38 @@
             const colorIndex = email.charCodeAt(0) % colors.length;
             const color = colors[colorIndex];
             
-            return `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="${encodeURIComponent(color)}" rx="50"/><text x="50" y="65" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="40" font-weight="bold">${initial}</text></svg>`;
+            return `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><rect width="120" height="120" fill="${encodeURIComponent(color)}" rx="60"/><text x="60" y="80" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="50" font-weight="bold">${initial}</text></svg>`;
         }
 
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
+            const colors = {
+                success: '#28a745',
+                error: '#dc3545',
+                info: '#17a2b8'
+            };
+            
             notification.style.cssText = `
                 position: fixed;
-                top: 20px;
+                top: 100px;
                 right: 20px;
-                background: ${type === 'success' ? '#28a745' : '#17a2b8'};
+                background: ${colors[type] || colors.info};
                 color: white;
                 padding: 1rem 1.5rem;
                 border-radius: 8px;
                 z-index: 10000;
                 box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                animation: slideIn 0.3s ease-out;
             `;
             notification.textContent = message;
             
             document.body.appendChild(notification);
             
-            setTimeout(() => notification.remove(), 3000);
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-in';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
         }
     </script>
 </body>
->>>>>>> 1a1e704d7eebaa3dc35e5fc0b35307bad07426c9
 </html>

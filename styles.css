@@ -74,24 +74,38 @@ body {
 }
 
 .navbar {
-    padding: 1rem 0;
+    padding: 0.5rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 2rem;
+    gap: 2rem;
+    min-height: 70px;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: #667eea;
+    flex-shrink: 0;
+    white-space: nowrap;
+    min-width: fit-content;
+}
+
+.logo-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    object-fit: cover;
 }
 
 .logo i {
@@ -103,6 +117,11 @@ body {
     display: flex;
     list-style: none;
     gap: 2rem;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    justify-content: flex-start;
+    margin-left: 2rem;
 }
 
 .nav-link {
@@ -135,7 +154,14 @@ body {
 .nav-icons {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
+    flex-shrink: 0;
+}
+
+#user-auth-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .search-icon, .cart-icon {
@@ -196,6 +222,186 @@ body {
     background: #333;
     margin: 3px 0;
     transition: 0.3s;
+}
+
+/* User Account Dropdown Styles */
+.user-account-dropdown {
+    position: relative;
+}
+
+.user-account-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.user-account-trigger:hover {
+    background: rgba(102, 126, 234, 0.2);
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.user-account-trigger i {
+    font-size: 0.8rem;
+    color: #667eea;
+    transition: transform 0.3s ease;
+}
+
+.user-account-dropdown.active .user-account-trigger i {
+    transform: rotate(180deg);
+}
+
+.user-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.user-account-dropdown.active .user-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.dropdown-item:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+}
+
+.dropdown-item i {
+    width: 16px;
+    text-align: center;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 0.5rem 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .nav-container {
+        padding: 0 1.5rem;
+        gap: 1.5rem;
+    }
+    
+    .nav-menu {
+        gap: 1.5rem;
+        margin-left: 1rem;
+    }
+    
+    .logo {
+        font-size: 1.3rem;
+    }
+    
+    .nav-icons {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0 1rem;
+        gap: 1rem;
+        min-height: 60px;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        top: 60px;
+        left: -100%;
+        flex-direction: column;
+        background: white;
+        width: 100%;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        transition: left 0.3s ease;
+        gap: 1rem;
+        z-index: 999;
+        margin-left: 0;
+    }
+    
+    .nav-menu.active {
+        left: 0;
+    }
+    
+    .hamburger {
+        display: flex;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+    
+    .logo {
+        font-size: 1.1rem;
+    }
+    
+    .logo-image {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .nav-icons {
+        gap: 0.5rem;
+    }
+    
+    #user-auth-section {
+        gap: 0.5rem;
+    }
+    
+    .user-name {
+        display: none;
+    }
+    
+    .user-account-trigger {
+        padding: 0.4rem 0.6rem;
+    }
 }
 
 /* Hero Section */
@@ -1142,5 +1348,98 @@ tional Product Card Click Indicators */
     .product-card .add-to-cart {
         padding: 1rem;
         font-size: 1rem;
+    }
+}
+/* Sear
+ch Bar Integration with Header */
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-icons .search-container {
+    max-width: 250px;
+    margin-right: 0;
+}
+
+/* Responsive adjustments for search in header */
+@media (max-width: 992px) {
+    .nav-icons .search-container {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-icons .search-container {
+        max-width: 160px;
+    }
+}
+
+@media (max-width: 640px) {
+    .nav-icons .search-container {
+        display: none; /* Hide on mobile, can be shown in mobile menu if needed */
+    }
+}
+
+/* Ensure search dropdown appears above other elements */
+.search-results-dropdown {
+    z-index: 1001;
+}
+
+/* User Details Button (shown after login) */
+.user-details-btn {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.user-details-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    text-decoration: none;
+    color: white;
+}
+
+.user-details-btn i {
+    font-size: 1.1rem;
+}
+
+.user-details-btn span {
+    white-space: nowrap;
+}
+
+/* Responsive adjustments for user details button */
+@media (max-width: 768px) {
+    .user-details-btn span {
+        display: none;
+    }
+    
+    .user-details-btn {
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+    }
+    
+    .user-details-btn i {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-details-btn {
+        width: 36px;
+        height: 36px;
     }
 }

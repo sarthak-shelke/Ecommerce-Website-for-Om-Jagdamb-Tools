@@ -524,9 +524,20 @@
                     localStorage.setItem('userLoginTime', new Date().toISOString());
                     localStorage.setItem('justLoggedIn', 'true');
                     
-                    // Redirect to main page after short delay
+                    // Check if there's a redirect URL (from add to cart)
+                    const redirectUrl = localStorage.getItem('redirectAfterLogin');
+                    
+                    // Redirect after short delay
                     setTimeout(() => {
-                        window.location.href = 'index.html';
+                        if (redirectUrl) {
+                            // Clear the redirect URL
+                            localStorage.removeItem('redirectAfterLogin');
+                            // Redirect back to the page user was on
+                            window.location.href = redirectUrl;
+                        } else {
+                            // Default redirect to home page
+                            window.location.href = 'index.html';
+                        }
                     }, 1500);
                 } else {
                     showLoginMessage('Invalid credentials. Password must be at least 6 characters.', 'error');

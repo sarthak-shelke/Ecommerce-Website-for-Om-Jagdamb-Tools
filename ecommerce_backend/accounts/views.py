@@ -27,8 +27,11 @@ class RegisterView(generics.CreateAPIView):
         user = serializer.save()
         token, created = Token.objects.get_or_create(user=user)
         
+        # Pass request context to UserSerializer for profile_picture_url
+        user_serializer = UserSerializer(user, context={'request': request})
+        
         return Response({
-            'user': UserSerializer(user).data,
+            'user': user_serializer.data,
             'token': token.key,
             'message': 'Registration successful'
         }, status=status.HTTP_201_CREATED)
@@ -46,8 +49,11 @@ class LoginView(generics.GenericAPIView):
         token, created = Token.objects.get_or_create(user=user)
         login(request, user)
         
+        # Pass request context to UserSerializer for profile_picture_url
+        user_serializer = UserSerializer(user, context={'request': request})
+        
         return Response({
-            'user': UserSerializer(user).data,
+            'user': user_serializer.data,
             'token': token.key,
             'message': 'Login successful'
         })

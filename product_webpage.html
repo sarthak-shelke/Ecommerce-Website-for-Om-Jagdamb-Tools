@@ -7,6 +7,8 @@
     
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="search.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -185,42 +187,132 @@
                 display: flex;
             }
         }
+
+        /* Additional header alignment styles */
+        .header-modern .search-container {
+            max-width: 220px;
+        }
+
+        @media (min-width: 768px) {
+            .header-modern .search-container {
+                max-width: 260px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .header-modern .search-container {
+                max-width: 300px;
+            }
+        }
+
+        /* Ensure proper spacing */
+        .header-modern nav > div {
+            gap: 0.75rem;
+        }
+
+        /* Cart icon positioning fix */
+        .cart-icon-modern {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Mobile menu search styling */
+        .mobile-menu-modern .search-container {
+            max-width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .mobile-menu-modern .search-input {
+            width: 100%;
+            font-size: 16px;
+            padding: 10px 40px;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
 
     <header class="header-modern">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div class="flex justify-between items-center h-16">
+            <div class="flex justify-between items-center h-16 gap-4">
+                <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <img src="om-jagdamb-tools-services-logo.jpg" alt="Om Jagdamba Tools Logo" class="h-10 w-10 mr-3 rounded-full">
-                    <span class="text-2xl font-bold text-purple-600">Om Jagdamb Tools</span>
+                    <span class="text-xl sm:text-2xl font-bold text-purple-600">Om Jagdamb Tools</span>
                 </div>
-                <div class="hidden sm:block sm:ml-6">
-                    <div class="flex space-x-4">
-                        <a href="index.html" class="nav-link-modern">Home</a>
-                        <a href="product_webpage.html" class="nav-link-modern nav-link-active">Products</a>
-                        <a href="index.html#services" class="nav-link-modern">Services</a>
-                        <a href="about.html" class="nav-link-modern">About</a>
-                        <a href="contact.html" class="nav-link-modern">Contact</a>
-                        <a href="login.html" class="nav-link-modern">Login</a>
-                        <a href="signup.html" class="nav-link-modern">Sign Up</a>
+                
+                <!-- Desktop Navigation Links -->
+                <div class="hidden lg:flex items-center space-x-3">
+                    <a href="index.html" class="nav-link-modern">Home</a>
+                    <a href="product_webpage.html" class="nav-link-modern nav-link-active">Products</a>
+                    <a href="index.html#services" class="nav-link-modern">Services</a>
+                    <a href="about.html" class="nav-link-modern">About</a>
+                    <a href="contact.html" class="nav-link-modern">Contact</a>
+                </div>
+                
+                <!-- Right Side: Search + Cart + Hamburger -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Search Container -->
+                    <div class="search-container hidden sm:flex" role="search">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input 
+                                type="text" 
+                                id="product-search-input" 
+                                class="search-input" 
+                                placeholder="Search..."
+                                autocomplete="off"
+                                aria-label="Search products"
+                            >
+                            <div class="search-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                        <div class="search-results-dropdown" id="search-results" style="display: none;" role="listbox" aria-live="polite">
+                            <!-- Results will be dynamically inserted here -->
+                        </div>
                     </div>
-                </div>
-                <div class="flex items-center">
-                    <a href="cart.html" class="cart-icon-modern mr-4">
+                    
+                    <!-- Cart Icon -->
+                    <a href="cart.html" class="cart-icon-modern relative">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                         <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
                     </a>
-                    <div class="hamburger-modern sm:hidden">
+                    
+                    <!-- Hamburger Menu (Mobile) -->
+                    <div class="hamburger-modern lg:hidden">
                         <span></span>
                         <span></span>
                         <span></span>
                     </div>
                 </div>
             </div>
+            
+            <!-- Mobile Menu -->
             <div class="mobile-menu-modern sm:hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1">
+                    <!-- Mobile Search -->
+                    <div class="search-container mb-3" role="search" style="max-width: 100%;">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input 
+                                type="text" 
+                                id="product-search-input-mobile" 
+                                class="search-input" 
+                                placeholder="Search products..."
+                                autocomplete="off"
+                                aria-label="Search products"
+                            >
+                            <div class="search-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                        <div class="search-results-dropdown" id="search-results-mobile" style="display: none;" role="listbox" aria-live="polite">
+                            <!-- Results will be dynamically inserted here -->
+                        </div>
+                    </div>
+                    
                     <a href="index.html" class="mobile-nav-link">Home</a>
                     <a href="product_webpage.html" class="mobile-nav-link mobile-nav-active">Products</a>
                     <a href="index.html#services" class="mobile-nav-link">Services</a>
@@ -305,7 +397,11 @@
         </div>
     </footer>
 
+    <script src="auth-helper.js"></script>
+    <script src="cart-api.js"></script>
+    <script src="cart-ui.js"></script>
     <script src="app.js" defer></script>
+    <script src="search.js"></script>
     <script>
         // Update cart badge (Unchanged)
         function updateCartBadge() {

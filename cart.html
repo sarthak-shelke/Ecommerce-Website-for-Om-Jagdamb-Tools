@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Om Jagdamb Tools</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            --primary-blue: #4A90E2;
+        }
+        
+        .bg-blue-600 { background-color: var(--primary-blue); }
+        .hover\:bg-blue-700:hover { background-color: #357ABD; }
+        .text-blue-600 { color: var(--primary-blue); }
+        .hover\:text-blue-600:hover { color: var(--primary-blue); }
+        .focus\:ring-blue-500:focus { --tw-ring-color: var(--primary-blue); }
+        .border-blue-600 { border-color: var(--primary-blue); }
+        .focus\:border-blue-500:focus { border-color: var(--primary-blue); }
+
+        .header-modern {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-link-modern {
+            color: #334155;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-link-modern:hover {
+            color: var(--primary-blue);
+        }
+
+        .cart-icon-modern {
+            position: relative;
+            color: #334155;
+            transition: color 0.3s;
+        }
+        .cart-icon-modern:hover {
+            color: var(--primary-blue);
+        }
+
+        .cart-item-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .cart-item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 6px;
+        }
+        .quantity-btn:hover {
+            background: #f1f5f9;
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+        .quantity-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Smooth animations for cart updates */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .cart-item-card {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        /* Pulse animation for updated values */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .value-updated {
+            animation: pulse 0.3s ease-out;
+            color: var(--primary-blue);
+        }
+        
+        /* Fade out animation for removed items */
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+        }
+        
+        .removing {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .empty-cart-icon {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="header-modern">
+        <nav class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <a href="index.html" class="flex items-center">
+                            <img src="om-jagdamb-tools-services-logo.jpg" alt="Logo" class="h-10 w-auto mr-2">
+                            <span class="text-xl font-bold text-gray-900">Om Jagdamb Tools</span>
+                        </a>
+                    </div>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="index.html" class="nav-link-modern">Home</a>
+                        <a href="product_webpage.html" class="nav-link-modern">Products</a>
+                        <a href="index.html#services" class="nav-link-modern">Services</a>
+                        <a href="about.html" class="nav-link-modern">About</a>
+                        <a href="contact.html" class="nav-link-modern">Contact</a>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="cart.html" class="cart-icon-modern relative">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                        </a>
+                        <a href="login.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+                            <i class="fas fa-user mr-1"></i> Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Cart Items -->
+                <div class="lg:col-span-2">
+                    <div id="cart-items-container">
+                        <!-- Cart items will be dynamically loaded here -->
+                        <div class="empty-cart" id="empty-cart-message" style="display: none;">
+                            <div class="empty-cart-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h2 class="text-2xl font-semibold text-gray-700 mb-2">Your cart is empty</h2>
+                            <p class="text-gray-500 mb-6">Start adding some products to your cart!</p>
+                            <a href="product_webpage.html" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition transform hover:scale-105">
+                                <i class="fas fa-shopping-bag mr-2"></i>
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Order Summary</h2>
+                        
+                        <div class="space-y-3 mb-4">
+                            <div class="flex justify-between text-gray-600">
+                                <span>Subtotal</span>
+                                <span id="cart-subtotal">₹0</span>
+                            </div>
+                            <div class="flex justify-between text-gray-600">
+                                <span>Shipping</span>
+                                <span id="cart-shipping">₹0</span>
+                            </div>
+                            <div class="border-t pt-3 mt-3">
+                                <div class="flex justify-between text-lg font-semibold text-gray-900">
+                                    <span>Total</span>
+                                    <span id="cart-total">₹0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="checkout-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition mb-4 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>
+                            Proceed to Checkout
+                        </button>
+                        
+                        <a href="product_webpage.html" class="block text-center text-blue-600 hover:text-blue-700 font-medium transition hover:underline">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Continue Shopping
+               
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="om-jagdamb-tools-services-logo.jpg" alt="Logo" class="h-10 w-auto mr-2">
+                        <span class="text-xl font-bold">Om Jagdamb Tools</span>
+                    </div>
+                    <p class="text-gray-400">Your trusted partner for construction tools and services</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="index.html" class="hover:text-white">Home</a></li>
+                        <li><a href="product_webpage.html" class="hover:text-white">Products</a></li>
+                        <li><a href="about.html" class="hover:text-white">About</a></li>
+                        <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Contact</h3>
+                    <p class="text-gray-400">Email: info@omjagdambtools.com</p>
+                    <p class="text-gray-400">Phone: +91 [phone_number]</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Om Jagdamb Tools and Services. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="auth-helper.js"></script>
+    <script src="cart-api.js"></script>
+    <script src="cart-ui.js"></script>
+    <script>
+        // Load cart from localStorage (supports both keys)
+        function loadCartCompat() {
+            const primary = JSON.parse(localStorage.getItem('cart') || '[]');
+            const legacy = JSON.parse(localStorage.getItem('om_jagdamb_cart') || '[]');
+            if (!legacy.length) return primary;
+            // Merge by slug or id
+            const byKey = new Map();
+            const add = (item) => {
+                const key = item.slug || item.id || `${item.name}-${item.price}`;
+                if (byKey.has(key)) {
+                    const existing = byKey.get(key);
+                    existing.quantity = (existing.quantity || 1) + (item.quantity || 1);
+                } else {
+                    byKey.set(key, {
+                        slug: item.slug,
+                        id: item.id,
+                        name: item.name || 'Product',
+                        price: parseFloat(item.price) || 0,
+                        image: item.image || item.imageUrl || 'https://placehold.co/150x150/e2e8f0/334155?text=No+Image',
+                        quantity: item.quantity || 1,
+                        description: item.description || ''
+                    });
+                }
+            };
+            primary.forEach(add);
+            legacy.forEach(add);
+            return Array.from(byKey.values());
+        }
+
+        let cart = [];
+        
+        // Load cart on page load
+        async function initializeCart() {
+            console.log('=== initializeCart START ===');
+            
+            try {
+                // Check localStorage directly first
+                const localCart = localStorage.getItem('cart');
+                const legacyCart = localStorage.getItem('om_jagdamb_cart');
+                console.log('localStorage cart:', localCart);
+                console.log('localStorage om_jagdamb_cart:', legacyCart);
+                
+                // Try to use cartAPI if available
+                if (typeof cartAPI !== 'undefined' && cartAPI.cart) {
+                    console.log('Using cartAPI.cart');
+                    cart = cartAPI.cart;
+                } else if (localCart) {
+                    console.log('Using localStorage cart');
+                    cart = JSON.parse(localCart);
+                } else if (legacyCart) {
+                    console.log('Using localStorage om_jagdamb_cart');
+                    cart = JSON.parse(legacyCart);
+                } else {
+                    console.log('No cart data found');
+                    cart = [];
+                }
+                
+                console.log('Cart loaded:', cart.length, 'items');
+                console.log('Cart contents:', cart);
+                
+            } catch (error) {
+                console.error('Error loading cart:', error);
+                cart = [];
+            }
+            
+            console.log('=== initializeCart END ===');
+        }
+
+        // Update cart badge
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Render cart items (optimized for instant updates)
+        function renderCartItems() {
+            const container = document.getElementById('cart-items-container');
+            const emptyMessage = document.getElementById('empty-cart-message');
+            
+            if (cart.length === 0) {
+                emptyMessage.style.display = 'block';
+                container.innerHTML = '';
+                container.appendChild(emptyMessage);
+                updateCartSummary(0);
+                document.getElementById('checkout-btn').disabled = true;
+                return;
+            }
+
+            emptyMessage.style.display = 'none';
+            container.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                const cartItemCard = document.createElement('div');
+                cartItemCard.className = 'bg-white rounded-lg shadow-md p-4 mb-4 cart-item-card';
+                cartItemCard.setAttribute('data-cart-item', index);
+                
+                const itemTotal = (item.price || 0) * (item.quantity || 1);
+                
+                const imageUrl = item.image || item.primary_image || 'https://placehold.co/150x150/e2e8f0/334155?text=No+Image';
+                
+                cartItemCard.innerHTML = `
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="flex-shrink-0">
+                            <img src="${imageUrl}" 
+                                 alt="${item.name || 'Product'}"
+                                 onerror="this.src='https://placehold.co/150x150/e2e8f0/334155?text=No+Image'" 
+                                 class="w-full sm:w-24 h-24 object-cover rounded-lg">
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">${item.name || 'Product'}</h3>
+                                    <p class="text-sm text-gray-500">${item.description || ''}</p>
+                                </div>
+                                <button type="button" class="text-red-500 hover:text-red-700 transition" data-action="remove" data-index="${index}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-sm text-gray-600">Quantity:</span>
+                                    <button type="button" class="quantity-btn" data-action="dec" data-index="${index}">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <span class="w-12 text-center font-medium" data-quantity="${index}">${item.quantity || 1}</span>
+                                    <button type="button" class="quantity-btn" data-action="inc" data-index="${index}">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-semibold text-gray-900" data-item-total="${index}">₹${itemTotal.toFixed(2)}</div>
+                                    <div class="text-sm text-gray-500">₹${(item.price || 0).toFixed(2)} each</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(cartItemCard);
+            });
+
+            updateCartSummary();
+            document.getElementById('checkout-btn').disabled = false;
+        }
+
+        // Update quantity (instant update without reload) - Now with backend sync
+        async function updateQuantity(index, change) {
+            if (!cart[index]) {
+                console.error('Invalid cart index:', index);
+                return;
+            }
+            
+            const item = cart[index];
+            const oldQuantity = item.quantity || 1;
+            const newQuantity = oldQuantity + change;
+            
+            console.log(`Updating quantity: ${oldQuantity} + ${change} = ${newQuantity}`);
+            
+            // Don't allow quantity to go below 1
+            if (newQuantity <= 0) {
+                if (confirm('Remove this item from cart?')) {
+                    // Use cartAPI to remove
+                    await cartAPI.removeFromCart(item.id);
+                    cart = cartAPI.cart;
+                    // Full re-render needed when removing
+                    renderCartItems();
+                    updateCartBadge();
+                    updateCartSummary();
+                } else {
+                    return; // Don't update if user cancels
+                }
+            } else {
+                // Use cartAPI to update quantity
+                await cartAPI.updateQuantity(item.id, newQuantity);
+                
+                // IMPORTANT: Reload cart from cartAPI after update
+                cart = cartAPI.cart;
+                console.log('Cart after quantity update:', cart);
+                
+                // Update UI elements directly without full re-render
+                const quantitySpan = document.querySelector(`[data-quantity="${index}"]`);
+                const itemTotalDiv = document.querySelector(`[data-item-total="${index}"]`);
+                
+                if (quantitySpan) {
+                    quantitySpan.textContent = newQuantity;
+                    // Add pulse animation
+                    quantitySpan.classList.add('value-updated');
+                    setTimeout(() => quantitySpan.classList.remove('value-updated'), 300);
+                }
+                
+                if (itemTotalDiv) {
+                    // Find the updated item in cart
+                    const updatedItem = cart.find(cartItem => cartItem.id === item.id);
+                    if (updatedItem) {
+                        const itemTotal = (updatedItem.price || 0) * (updatedItem.quantity || 0);
+                        itemTotalDiv.textContent = `₹${itemTotal.toFixed(2)}`;
+                        // Add pulse animation
+                        itemTotalDiv.classList.add('value-updated');
+                        setTimeout(() => itemTotalDiv.classList.remove('value-updated'), 300);
+                    }
+                }
+                
+                // Update cart summary and badge - CRITICAL
+                console.log('Calling updateCartSummary after quantity change');
+                updateCartSummary();
+                updateCartBadge();
+            }
+            
+            // Dispatch storage event for other tabs/windows
+            window.dispatchEvent(new Event('storage'));
+        }
+
+        // Remove item with animation
+        async function removeItem(index) {
+            if (!confirm('Are you sure you want to remove this item from your cart?')) {
+                return;
+            }
+            
+            // Get the cart item element
+            const cartItemElement = document.querySelector(`[data-cart-item="${index}"]`);
+            
+            if (cartItemElement) {
+                // Add fade-out animation class
+                cartItemElement.classList.add('removing');
+                
+                // Wait for animation to complete before removing
+                setTimeout(async () => {
+                    // Use cartAPI to remove
+                    const item = cart[index];
+                    await cartAPI.removeFromCart(item.id);
+                    cart = cartAPI.cart;
+                    
+                    // Re-render cart (necessary to update indices)
+                    renderCartItems();
+                    updateCartBadge();
+                    updateCartSummary();
+                }, 300);
+            } else {
+                // Fallback if element not found
+                const item = cart[index];
+                await cartAPI.removeFromCart(item.id);
+                cart = cartAPI.cart;
+                renderCartItems();
+                updateCartBadge();
+                updateCartSummary();
+            }
+        }
+
+        // Debounce flag to prevent rapid clicks
+        let isUpdating = false;
+        
+        // Track if events are already attached
+        let eventsAttached = false;
+        
+        // Event delegation for quantity and remove buttons (instant updates)
+        function attachCartEvents() {
+            // Only attach once
+            if (eventsAttached) {
+                console.log('Events already attached, skipping');
+                return;
+            }
+            
+            const container = document.getElementById('cart-items-container');
+            
+            if (!container) {
+                console.error('Cart container not found!');
+                return;
+            }
+            
+            // Add event listener with capture phase
+            container.addEventListener('click', function(e) {
+                console.log('Click detected on:', e.target.tagName, e.target.className);
+                
+                // Check if click is on a button or inside a button
+                const btn = e.target.closest('button');
+                if (!btn) {
+                    console.log('Not a button, ignoring');
+                    return;
+                }
+                
+                // Get action and index
+                const action = btn.getAttribute('data-action');
+                const indexAttr = btn.getAttribute('data-index');
+                
+                console.log('Button clicked:', { action, index: indexAttr });
+                
+                // Only handle our cart action buttons
+                if (!action || indexAttr === null) {
+                    console.log('No action or index, ignoring');
+                    return;
+                }
+                
+                // CRITICAL: Prevent any default behavior and stop propagation FIRST
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                
+                const index = parseInt(indexAttr, 10);
+                if (Number.isNaN(index)) {
+                    console.error('Invalid index:', indexAttr);
+                    return false;
+                }
+                
+                // Prevent rapid clicks (debounce) - but not for remove action
+                if (isUpdating && action !== 'remove') {
+                    console.log('Update in progress, please wait...');
+                    return false;
+                }
+                
+                // Set updating flag for inc/dec actions
+                if (action !== 'remove') {
+                    isUpdating = true;
+                }
+                
+                // Add visual feedback
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    if (btn && btn.style) btn.style.transform = 'scale(1)';
+                }, 100);
+                
+                // Handle actions instantly
+                console.log('Executing action:', action);
+                
+                if (action === 'inc') {
+                    updateQuantity(index, 1);
+                    // Reset debounce flag
+                    setTimeout(() => {
+                        isUpdating = false;
+                    }, 150);
+                }
+                else if (action === 'dec') {
+                    updateQuantity(index, -1);
+                    // Reset debounce flag
+                    setTimeout(() => {
+                        isUpdating = false;
+                    }, 150);
+                }
+                else if (action === 'remove') {
+                    console.log('Removing item at index:', index);
+                    removeItem(index);
+                }
+                
+                return false; // Extra safety to prevent default
+            }, true); // Use capture phase
+            
+            eventsAttached = true;
+            console.log('Cart events attached successfully');
+        }
+
+        // Update cart summary with visual feedback
+        function updateCartSummary() {
+            console.log('=== updateCartSummary called ===');
+            console.log('Cart items:', cart.length);
+            console.log('Cart contents:', cart);
+            
+            const subtotal = cart.reduce((sum, item) => {
+                const itemTotal = (item.price || 0) * (item.quantity || 1);
+                console.log(`Item: ${item.name}, Price: ${item.price}, Qty: ${item.quantity}, Total: ${itemTotal}`);
+                return sum + itemTotal;
+            }, 0);
+            
+            const shipping = subtotal > 500 ? 0 : (subtotal > 0 ? 50 : 0);
+            const total = subtotal + shipping;
+
+            console.log('Calculated:', { subtotal, shipping, total });
+
+            // Update with animation
+            const subtotalEl = document.getElementById('cart-subtotal');
+            const shippingEl = document.getElementById('cart-shipping');
+            const totalEl = document.getElementById('cart-total');
+            
+            console.log('Elements found:', {
+                subtotalEl: !!subtotalEl,
+                shippingEl: !!shippingEl,
+                totalEl: !!totalEl
+            });
+            
+            // Check if elements exist before updating
+            if (subtotalEl) {
+                subtotalEl.textContent = `₹${subtotal.toFixed(2)}`;
+                subtotalEl.classList.add('value-updated');
+                setTimeout(() => subtotalEl.classList.remove('value-updated'), 300);
+                console.log('Subtotal updated to:', subtotalEl.textContent);
+            } else {
+                console.error('Subtotal element not found!');
+            }
+            
+            if (shippingEl) {
+                shippingEl.textContent = subtotal > 500 ? 'Free' : `₹${shipping.toFixed(2)}`;
+                console.log('Shipping updated to:', shippingEl.textContent);
+            } else {
+                console.error('Shipping element not found!');
+            }
+            
+            if (totalEl) {
+                totalEl.textContent = `₹${total.toFixed(2)}`;
+                totalEl.classList.add('value-updated');
+                setTimeout(() => totalEl.classList.remove('value-updated'), 300);
+                console.log('Total updated to:', totalEl.textContent);
+            } else {
+                console.error('Total element not found!');
+            }
+            
+            console.log('=== updateCartSummary complete ===');
+        }
+
+        // Check if user is authenticated
+        function isUserAuthenticated() {
+            // Check for regular user authentication (from login.html)
+            const isUser = localStorage.getItem('isUser');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            // Check for admin authentication
+            const isAdmin = localStorage.getItem('isAdmin');
+            const adminEmail = localStorage.getItem('adminEmail');
+            
+            // Check for backend token (if using Django backend)
+            const token = localStorage.getItem('token');
+            
+            // User is authenticated if any of these conditions are true
+            if (isUser === 'true' && userEmail) {
+                console.log('User authenticated:', userEmail);
+                return true;
+            }
+            
+            if (isAdmin === 'true' && adminEmail) {
+                console.log('Admin authenticated:', adminEmail);
+                return true;
+            }
+            
+            if (token) {
+                console.log('Token found, user authenticated');
+                return true;
+            }
+            
+            console.log('No authentication found');
+            return false;
+        }
+        
+        // Checkout button handler
+        document.getElementById('checkout-btn').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent any default behavior
+            
+            console.log('Checkout button clicked');
+            
+            // Check if cart is empty
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            // Check if user is authenticated
+            if (!isUserAuthenticated()) {
+                console.log('User not authenticated, redirecting to login');
+                if (confirm('You need to login to checkout. Would you like to login now?')) {
+                    // Calculate order summary before redirecting
+                    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                    const shipping = subtotal > 500 ? 0 : 50;
+                    const total = subtotal + shipping;
+                    
+                    // Save order summary for after login
+                    const orderSummary = {
+                        items: cart,
+                        subtotal: subtotal,
+                        shipping: shipping,
+                        total: total,
+                        timestamp: new Date().toISOString()
+                    };
+                    localStorage.setItem('orderSummary', JSON.stringify(orderSummary));
+                    
+                    // Save current cart before redirecting
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    localStorage.setItem('om_jagdamb_cart', JSON.stringify(cart));
+                    
+                    // Save that user wants to go to payment after login
+                    localStorage.setItem('redirectAfterLogin', 'payment.html');
+                    
+                    // Redirect to login
+                    window.location.href = 'login.html';
+                }
+                return;
+            }
+            
+            // User is authenticated, proceed to payment
+            console.log('User authenticated, proceeding to payment page');
+            
+            // Calculate order summary
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal > 500 ? 0 : 50;
+            const total = subtotal + shipping;
+            
+            // Save order summary to localStorage for payment page
+            const orderSummary = {
+                items: cart,
+                subtotal: subtotal,
+                shipping: shipping,
+                total: total,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('orderSummary', JSON.stringify(orderSummary));
+            
+            // Save cart data (in case payment page needs it)
+            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('om_jagdamb_cart', JSON.stringify(cart));
+            
+            console.log('Order summary saved, redirecting to payment page');
+            
+            // Redirect to payment and shipping page
+            window.location.href = 'payment.html';
+        });
+
+        // Prevent any form submissions on the page
+        document.addEventListener('submit', function(e) {
+            console.log('Form submission detected - preventing!');
+            e.preventDefault();
+            return false;
+        }, true);
+        
+        // Detect page unload (for debugging)
+        window.addEventListener('beforeunload', function(e) {
+            console.log('Page is about to reload/unload');
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== CART PAGE LOADING ===');
+            
+            // Wait a bit for scripts to fully load, then initialize
+            setTimeout(async function() {
+                // Check if cartAPI is available
+                if (typeof cartAPI === 'undefined') {
+                    console.error('cartAPI not loaded! Loading cart directly from localStorage');
+                    cart = JSON.parse(localStorage.getItem('cart') || localStorage.getItem('om_jagdamb_cart') || '[]');
+                } else {
+                    // Initialize cart from cartAPI
+                    await initializeCart();
+                }
+                
+                console.log('Final cart for rendering:', cart);
+                
+                // Render immediately
+                renderCartItems();
+                updateCartBadge();
+                
+                // Attach event listeners
+                attachCartEvents();
+                
+                console.log('=== CART PAGE LOADED ===');
+                console.log('Cart items:', cart.length);
+            }, 100);
+        });
+    </script>
+</body>
+</html>
+

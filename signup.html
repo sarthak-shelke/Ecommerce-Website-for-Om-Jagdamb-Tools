@@ -1,163 +1,128 @@
-</div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - API Test</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f3f4f6; }
+        .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .login-card { background: white; border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        .login-btn { padding: 0.75rem; background: #6366f1; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        #error-message { color: red; margin-top: 10px; display: block; text-align: center; }
+        input { width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ccc; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h1 style="text-align: center; margin-bottom: 20px;">Create Account </h1>
+            
+            <p id="error-message"></p>
 
-<script>
-    // Form validation functions (UNCHANGED - keep these for user feedback)
-    function validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-    
-    function validatePassword(password) {
-        // At least 8 characters, 1 uppercase, 1 lowercase, 1 number (matches your Django serializer logic)
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/; 
-        return passwordRegex.test(password);
-    }
-    
-    function validateUsername(username) {
-        const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
-        return usernameRegex.test(username);
-    }
-    
-    function validateName(name) {
-        const nameRegex = /^[a-zA-Z]{2,}$/;
-        return nameRegex.test(name);
-    }
-    
-    function showError(message) {
-        const errorElement = document.getElementById('error-message');
-        errorElement.textContent = message;
-        errorElement.style.color = '#e53e3e';
-        errorElement.style.display = 'block';
-    }
-    
-    function showSuccess(message) {
-        const errorElement = document.getElementById('error-message');
-        errorElement.textContent = message;
-        errorElement.style.color = '#28a745';
-        errorElement.style.display = 'block';
-    }
-    
-    function clearMessage() {
-        const errorElement = document.getElementById('error-message');
-        errorElement.textContent = '';
-        errorElement.style.display = 'none';
-    }
+            <form id="signupForm">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="text" id="first-name" placeholder="First Name" required>
+                <input type="text" id="last-name" placeholder="Last Name" required>
+                <input type="password" id="password" placeholder="Password (min 8 chars)" required>
+                <input type="password" id="password-confirm" placeholder="Confirm Password" required>
 
-    // --- NEW API SUBMISSION LOGIC ---
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('signupForm');
-        const submitBtn = document.getElementById('signup-btn');
+                <button type="submit" class="login-btn" id="signup-btn">
+                    Sign Up
+                </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                Already have an account? <a href="login.html">Log in here</a>
+            </div>
+        </div>
+    </div>
 
-        // Input References
-        const username = document.getElementById('username');
-        const email = document.getElementById('email');
-        const firstName = document.getElementById('first-name');
-        const lastName = document.getElementById('last-name');
-        const password = document.getElementById('password');
-        const passwordConfirm = document.getElementById('password-confirm');
+    <script>
+        // --- Validation Functions (Simplified) ---
+        function validateEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+        function validatePassword(password) { return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/.test(password); }
+        function validateUsername(username) { return /^[a-zA-Z0-9_]{3,20}$/.test(username); }
         
-        // --- REAL-TIME VALIDATION (Keep the user feedback) ---
-        // (You can uncomment and re-add your real-time listeners here if you want them)
+        function showError(message) { const el = document.getElementById('error-message'); if (el) { el.textContent = message; el.style.color = '#e53e3e'; el.style.display = 'block'; } }
+        function showSuccess(message) { const el = document.getElementById('error-message'); if (el) { el.textContent = message; el.style.color = '#28a745'; el.style.display = 'block'; } }
+        function clearMessage() { const el = document.getElementById('error-message'); if (el) { el.textContent = ''; el.style.display = 'none'; } }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('signupForm');
+            const submitBtn = document.getElementById('signup-btn');
 
-        // --- FORM SUBMISSION HANDLER ---
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            clearMessage();
-            
-            const data = {
-                username: username.value.trim(),
-                email: email.value.trim(),
-                first_name: firstName.value.trim(), // Django expects first_name
-                last_name: lastName.value.trim(),   // Django expects last_name
-                password: password.value,
-                password_confirm: passwordConfirm.value
-            };
-            
-            // --- Frontend Validation Check (Critical) ---
-            if (!data.username || !data.email || !data.first_name || !data.last_name || !data.password || !data.password_confirm) {
-                showError('Please fill in all fields');
-                return;
-            }
-            if (data.password !== data.password_confirm) {
-                showError('Passwords do not match');
-                return;
-            }
-            if (!validatePassword(data.password)) {
-                showError('Password must be at least 8 characters with uppercase, lowercase, and number');
-                return;
-            }
-            // Add other validation checks here (username, email format, etc.)
+            if (!form || !submitBtn) return; // Safety exit if form elements are missing
 
-            // Show loading state
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i>Creating Account...';
-            submitBtn.disabled = true;
-
-            const registerApiUrl = 'http://127.0.0.1:8000/api/auth/register/';
-
-            try {
-                const response = await fetch(registerApiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-
-                const responseData = await response.json();
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                clearMessage();
                 
-                if (response.ok) {
-                    // SUCCESS! Django sends back the user and token on successful registration
-                    if (responseData.token) {
-                        localStorage.setItem('authToken', responseData.token); // Save token
-                        
-                        showSuccess('Account created! Logging in...');
+                // Get values
+                const data = {
+                    username: document.getElementById('username').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    first_name: document.getElementById('first-name').value.trim(), 
+                    last_name: document.getElementById('last-name').value.trim(),   
+                    password: document.getElementById('password').value, 
+                    password_confirm: document.getElementById('password-confirm').value
+                };
+                
+                // --- Validation Check (Minimal) ---
+                if (data.password !== data.password_confirm || !validatePassword(data.password)) {
+                    showError('Passwords must match and meet requirements.');
+                    return;
+                }
+                
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Creating Account...';
+                submitBtn.disabled = true;
+
+                const registerApiUrl = 'http://127.0.0.1:8000/api/auth/register/';
+
+                try {
+                    const response = await fetch(registerApiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+
+                    const responseData = await response.json();
+                    
+                    if (response.ok) {
+                        // SUCCESS! Account is created.
+                        showSuccess('Account created! Redirecting to login...');
                         submitBtn.style.background = '#28a745';
-                        submitBtn.innerHTML = '<i class="fas fa-check" style="margin-right: 0.5rem;"></i>Success!';
+                        submitBtn.textContent = 'Success! Redirecting...';
                         
-                        // Redirect after successful login/registration
+                        // --- FINAL REDIRECT TO LOGIN ---
                         setTimeout(() => {
-                            window.location.href = 'index.html'; 
+                            window.location.href = 'login.html'; 
                         }, 1500);
+                        
                     } else {
-                        throw new Error('Registration succeeded, but no login token was received.');
+                        // Handle error response from Django
+                        let messageToUser = 'Registration failed. Check the console for details.';
+                        if (responseData) {
+                            try {
+                                const errorJson = responseData;
+                                messageToUser = Object.keys(errorJson).map(key => {
+                                    const value = Array.isArray(errorJson[key]) ? errorJson[key][0] : errorJson[key];
+                                    return `${key.replace(/_/g, ' ')}: ${value}`;
+                                }).join(', ');
+                            } catch { /* Use default message */ }
+                        }
+                        throw new Error(messageToUser);
                     }
-                } else {
-                    // FAILURE: Handle API validation errors (e.g., username already exists)
-                    let errorMessage = 'Registration failed due to an unknown error.';
-                    if (responseData) {
-                        // Display the error text for the user
-                        errorMessage = JSON.stringify(responseData); 
-                    }
-                    throw new Error(errorMessage);
-                }
 
-            } catch (error) {
-                // Network or internal error
-                console.error('Sign Up Error:', error);
-                
-                let messageToUser = 'Registration failed. Check your input and try again.';
-                
-                // Try to parse specific validation errors (e.g., "Username already exists")
-                if (error.message.includes('unique constraint') || error.message.includes('exists')) {
-                    messageToUser = 'Username or email is already registered.';
-                } else if (error.message.includes('Failed to fetch')) {
-                    messageToUser = 'Server connection failed. Is Django running?';
-                } else if (error.message.includes('{')) {
-                     // Attempt to show detailed validation errors from Django (like required fields)
-                    try {
-                        const errorJson = JSON.parse(error.message);
-                        messageToUser = Object.keys(errorJson).map(key => `${key.replace(/_/g, ' ')}: ${errorJson[key][0]}`).join(', ');
-                    } catch { /* Use default message */ }
+                } catch (error) {
+                    showError(error.message || 'Server connection failed.');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
                 }
-
-                showError(messageToUser);
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }
+            });
         });
-    });
-</script>
-
-<script src="script.js" defer></script>
+    </script>
 </body>
 </html>
