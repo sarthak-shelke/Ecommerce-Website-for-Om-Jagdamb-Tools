@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSimplify - Medical Report Simplifier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .main-content {
+            padding: 40px 30px;
+        }
+
+        .upload-section {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e0;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-section:hover {
+            border-color: #4facfe;
+            background: #f0f9ff;
+        }
+
+        .upload-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(79, 172, 254, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .upload-section:hover::before {
+            opacity: 1;
+            animation: shimmer 1.5s ease-in-out;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #4facfe;
+            margin-bottom: 15px;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 15px 0;
+        }
+
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .file-input-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: #64748b;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .divider span {
+            padding: 0 20px;
+            font-weight: 500;
+            background: white;
+        }
+
+        .text-input-section {
+            margin-bottom: 30px;
+        }
+
+        .text-input-section label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .textarea-wrapper {
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 15px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-button:active {
+            transform: translateY(-1px);
+        }
+
+        .result {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result h3 {
+            color: #1f2937;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result p {
+            color: #374151;
+            line-height: 1.7;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #4facfe;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            padding: 20px 0;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 20px;
+            background: rgba(79, 172, 254, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(79, 172, 254, 0.1);
+        }
+
+        .feature i {
+            font-size: 2rem;
+            color: #4facfe;
+            margin-bottom: 10px;
+        }
+
+        .feature h4 {
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+
+        .feature p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-stethoscope"></i> MedSimplify</h1>
+            <p>Transform complex medical reports into clear, understandable language</p>
+        </div>
+
+        <div class="main-content">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="upload-section">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Upload Your Medical Report</h3>
+                    <p>Support for images, PDFs, and Word documents</p>
+                    
+                    <div class="file-input-wrapper">
+                        <input type="file" name="file" class="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <button type="button" class="file-input-button">
+                            <i class="fas fa-upload"></i>
+                            Choose File
+                        </button>
+                    </div>
+                </div>
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+                <div class="text-input-section">
+                    <label for="report">
+                        <i class="fas fa-edit"></i> Paste Your Medical Text
+                    </label>
+                    <div class="textarea-wrapper">
+                        <textarea 
+                            name="report" 
+                            id="report" 
+                            placeholder="Paste your medical report text here..."
+                        >{{ report_text or "" }}</textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-magic"></i>
+                    Simplify Report
+                </button>
+            </form>
+
+            {% if simplified %}
+            <div class="result">
+                <h3>
+                    <i class="fas fa-lightbulb"></i>
+                    Simplified Explanation
+                </h3>
+                <p>{{ simplified }}</p>
+            </div>
+            {% endif %}
+
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-file-medical"></i>
+                    <h4>Multiple Formats</h4>
+                    <p>PDF, Word, and image files supported</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-brain"></i>
+                    <h4>AI-Powered</h4>
+                    <p>Advanced language processing for accuracy</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Secure & Private</h4>
+                    <p>Your medical data stays confidential</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // File input enhancement
+        const fileInput = document.querySelector('.file-input');
+        const fileButton = document.querySelector('.file-input-button');
+        
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                fileButton.innerHTML = `<i class="fas fa-check"></i> ${e.target.files[0].name}`;
+                fileButton.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            }
+        });
+
+        // Form submission loading state
+        const form = document.querySelector('form');
+        const submitButton = document.querySelector('.submit-button');
+        
+        form.addEventListener('submit', function() {
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitButton.disabled = true;
+        });
+
+        // Textarea auto-resize
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.max(150, this.scrollHeight) + 'px';
+        });
+    </script>
+</body>
+</html>

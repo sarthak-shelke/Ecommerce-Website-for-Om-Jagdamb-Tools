@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Om Jagdamb Tools and Services - E-Commerce Platform
 
 A modern, full-stack e-commerce platform for construction tools and services, featuring a responsive frontend and Django REST API backend.
@@ -266,3 +267,7 @@ For questions or support:
 This project is created for Om Jagdamb Tools and Services. All rights reserved.
 
 ---
+=======
+# Portfolio
+My Projects!
+>>>>>>> 5b95b21c1cfc6b3cb4a5edd04843fb14555c91ae
